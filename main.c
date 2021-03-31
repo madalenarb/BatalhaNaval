@@ -1,4 +1,5 @@
 #include "headers.h"
+#include "tabuleiro.h"
 
 //definir valores default 
 #define DEFAULT_LINHAS 9
@@ -11,7 +12,7 @@
 void instrucoes(char *programa)
 {
     printf("B A T A L H A   N A V A L\n\n");
-    printf("Modo de utilização: ./wargame[opções]\n");
+    printf("Modo de utilização: %s[opções]\n", programa);
     printf("opções:\n");
     printf("-h\t\t    ajuda para o utilizador\n");
     printf("-t\t\t    dimensão do tabuleiro (linha x coluna)\n");
@@ -24,16 +25,14 @@ void instrucoes(char *programa)
 
 int main(int argc, char *argv[])
 {
-    int i,
+    int i = 0,
         linhas = DEFAULT_LINHAS,
         colunas = DEFAULT_COLUNAS,
         modoJogo = DEFAULT_MODO_JOGO,
         modoPosicionamento = DEFAULT_MODO_POSICIONAMENTO,
         modoDisparo = DEFAULT_MODO_DISPARO;
-    int tabuleiro[9][9] = {0};
+    int tabuleiro[15][24] = {0};
     char opt = 'h'; // opção para getopt()
-
-    opterr = 0; // assim getopt() não gera erros por opções inválidas
 
     // opções da linha de comandos:
     while ((opt = getopt(argc,argv,"ht:j:p:d:1234568")) != -1)
@@ -42,23 +41,26 @@ int main(int argc, char *argv[])
         switch(opt) {
             case 't':
                 sscanf(optarg, "%dx%d", &linhas, &colunas);
-                printf("%d %d\n", linhas, colunas);
+                //printf("%dx%d\n", linhas, colunas);
                 if ( linhas < 9 || colunas < 9 || linhas > 15 || colunas > 24 || linhas % 3 != 0 || colunas % 3 != 0)
                 {
                     printf("-1\n");
                     return EXIT_FAILURE;
                 }
-                
+
                 break;
             case 'j':
                 sscanf(optarg,"%d", &modoJogo);
+                //printf("j = %d\n", modoJogo);
                 if (modoJogo < 0 || modoJogo > 2){
                     printf("-1");
                     return EXIT_FAILURE;
                 }
+                break;
             
             case 'p':
                 sscanf(optarg, "%d", &modoPosicionamento);
+                //printf("p = %d\n", modoPosicionamento);
                 if (modoPosicionamento < 1 || modoPosicionamento > 2){
                     printf ("-1");
                     return EXIT_FAILURE;
@@ -67,13 +69,65 @@ int main(int argc, char *argv[])
             
             case 'd':
                 sscanf(optarg, "%d", &modoDisparo);
+                //printf("d = %d\n", modoDisparo);
                 if (modoDisparo < 1 || modoDisparo > 3)
                 {
                     printf ("-1");
                     return EXIT_FAILURE;
                 }
+                break;
+            default: //opções inválidas
+                printf("Erro: opção '%c' desconhecida \n\n", optopt);
+            case 'h':
+                instrucoes(argv[0]);
+                return EXIT_FAILURE;
+                break;
                 
         }
     }
     //instrucoes();
+    imprimir_tabuleiro(tabuleiro, linhas, colunas);
+    /*for ( i = 0; i < 2; i++ )
+    {
+        colocar_peca(tabuleiro,0,0,1,i);
+        imprimir_tabuleiro(tabuleiro, linhas, colunas);
+        tabuleiro[15][24] = {0};
+    }*/
 }
+/*
+void imprimir_tabuleiro(int tabuleiro[15][24], int123 linhas, int colunas)
+{
+    int i, j, v;
+    for (i = 0; i < linhas; i++){
+        printf("%2d|| ", i + 1);
+        for (j = 0; 3
+        j < colunas; j++)
+            printf( "%d |", tabuleiro[j][i]);
+            printf("\n");
+    }
+    printf("     A");
+    for (v = 0; v < colunas - 1; v++)
+    {
+        printf("  %c", (char)'B' + v);
+    }
+    
+    printf("\n\n");
+}
+*/
+
+/*void colocar_peca(int tabuleiro[15][24], int x, int y, int identificadorPeca, int identificadorVariante)
+{
+    if(identificadorPeca == 1){
+        tabuleiro[(x + identificadorVariante)%3][y] = 1;
+    }
+}
+
+void apagar_tabuleiro(int tabuleiro, int linhas, int colunas)
+{
+    int i;
+    for ( i = 0; i < linhas; i++)
+    {
+        printf("0")
+    }
+    
+}*/

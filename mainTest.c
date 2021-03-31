@@ -2,7 +2,7 @@
 
 int main() 
 {
-    int c, d;
+    char c, d;
     printf("select:");
     scanf("%dx%d",&c,&d);
     printf("%d\n", c);

@@ -1,0 +1,1 @@
+void imprimir_tabuleiro(int tabuleiro[15][24], int linhas, int colunas);
