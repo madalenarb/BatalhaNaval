@@ -56,11 +56,13 @@ void coloca_peca(int tabuleiro[25][35], int submat, int colunas)
     int variante = 0;
     int numpecas = submat; //restrição nº2
     printf("nº de peças %d\n", numpecas);
-    
+
     for ( pos = 0; pos < submat; pos++)
     {
+        //escolhe o tipo de peça aleatoriamente
         tipoPeca = rand()%8 + 1;
         
+        //Escolhe a variante aleatoriamente
         switch (tipoPeca)
         {
         case 1:
@@ -118,4 +120,10 @@ void print_peca( int id_peca, int id_variante, int tabuleiro[25][35], int poslin
     int id_global = return_id_global( id_peca, id_variante);
     printf("id_global = %d\n\n\n", id_global);
     bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
+}
+
+//verifica se se pode
+int verifica_peca(int submat)
+{
+
 }
