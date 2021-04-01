@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "pecas.h"
 #include "tabuleiro.h"
 
 //definir valores default 
@@ -18,7 +18,7 @@ void instrucoes(char *programa)
     printf("-t\t\t    dimensão do tabuleiro (linha x coluna)\n");
     printf("-j\t\t    modo de jogo (0 a 2)\n");
     printf("-p\t\t    modo de posicionamento de peças pelo computador (1 a 2)\n");
-    printf("-d\t\t    modo de disparo de peças pelo computador (1 a 3)\n");
+    printf("-d\t\t    modo de dispsaro de peças pelo computador (1 a 3)\n");
     printf("-[1-8]\t\t    indica o número de peças de cada tipo (mínimo 1)\n\n");
 
 }
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
         modoJogo = DEFAULT_MODO_JOGO,
         modoPosicionamento = DEFAULT_MODO_POSICIONAMENTO,
         modoDisparo = DEFAULT_MODO_DISPARO;
-    int tabuleiro[15][24] = {0};
+    int tabuleiro[25][35] = {0};
     char opt = 'h'; // opção para getopt()
 
     // opções da linha de comandos:
@@ -82,38 +82,33 @@ int main(int argc, char *argv[])
                 instrucoes(argv[0]);
                 return EXIT_FAILURE;
                 break;
-                
         }
     }
     //instrucoes();
-    imprimir_tabuleiro(tabuleiro, linhas, colunas);
+    //imprimir_tabuleiro(tabuleiro, linhas, colunas);
     /*for ( i = 0; i < 2; i++ )
     {
         colocar_peca(tabuleiro,0,0,1,i);
         imprimir_tabuleiro(tabuleiro, linhas, colunas);
         tabuleiro[15][24] = {0};
     }*/
+    /*
+    testar a impressão de peças aleatorias:
+    int numdemat = submat(linhas,colunas); //numero de matrizes 3x3 num tabuleiro
+    coloca_peca(tabuleiro, numdemat, colunas);
+    imprimir_tabuleiro(tabuleiro, linhas, colunas);
+    printf("\n submat = %d\n\n", numdemat);
+    */
+
+   for( i = 1; i <= 42; i++ ){
+    bibliotecadepecas(0,0,i,tabuleiro);
+    printf("%d\n\n", i);
+    imprimir_tabuleiro(tabuleiro, linhas, colunas);
+    apagar_tabuleiro(tabuleiro, linhas, colunas);
+   }
 }
-/*
-void imprimir_tabuleiro(int tabuleiro[15][24], int123 linhas, int colunas)
-{
-    int i, j, v;
-    for (i = 0; i < linhas; i++){
-        printf("%2d|| ", i + 1);
-        for (j = 0; 3
-        j < colunas; j++)
-            printf( "%d |", tabuleiro[j][i]);
-            printf("\n");
-    }
-    printf("     A");
-    for (v = 0; v < colunas - 1; v++)
-    {
-        printf("  %c", (char)'B' + v);
-    }
-    
-    printf("\n\n");
-}
-*/
+
+
 
 /*void colocar_peca(int tabuleiro[15][24], int x, int y, int identificadorPeca, int identificadorVariante)
 {
