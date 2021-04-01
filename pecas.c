@@ -37,7 +37,7 @@ int return_id_global( int id_peca, int id_variante)
                 break;
 
             case 8:
-                (id_global) = 41;
+                (id_global) = 42;
                 break;
             default:
                 break;
