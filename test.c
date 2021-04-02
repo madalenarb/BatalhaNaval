@@ -50,10 +50,10 @@ void coloca_peca(int tabuleiro[25][35], int submat, int colunas)
 {
     int pos = 0;
     srand(time(NULL));
-    int flag = 0; //quando flag = 0 pode-se colocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz
-    int contador = 1; //irá contar o número de tentativas a colocar uma peça na matriz
+    int status = 0; //quando status = 0 pode-se colocar a peça na matriz, se status = 1 não se pode colocar a peça na matriz
+    int contador = 0; //irá contar o número de tentativas a colocar uma peça na matriz
     //Inicialização das coordenadas de posicionamento (poslinha, poscoluna)
-    int poscoluna = 0;
+    int poscoluna = 0; 
     int poslinha = 0;
 
     //inicializa a variante e o tipo de peça
@@ -65,14 +65,15 @@ void coloca_peca(int tabuleiro[25][35], int submat, int colunas)
 
     for ( pos = 0; pos < submat; pos++)
     {
-        for ( contador = 1; contador <= 3; contador++ )
-        {
-            //escolhe o tipo de peça aleatoriamente
-            tipoPeca = rand()%8 + 1;
-            
-            //Escolhe a variante aleatoriamente
-            switch (tipoPeca)
-            {
+        while (contador < 3)
+        {        
+
+                //escolhe o tipo de peça aleatoriamente
+                tipoPeca = rand()%8 + 1;
+                
+                //Escolhe a variante aleatoriamente
+                switch (tipoPeca)
+                {
                 case 1:
                     variante = (rand()%9) + 1;
                     break;
@@ -101,24 +102,31 @@ void coloca_peca(int tabuleiro[25][35], int submat, int colunas)
                 
                 default:
                     break;
-            }
-            printf("%d\n", contador);
-            printf("variante : %d \n", variante);
-            printf("id_globalaa : %d \n", tipoPeca);
-            flag = analisar_pecas(tabuleiro, poslinha, poscoluna);
-            if (flag == 0){
+                }
+                status = analisar_pecas(tabuleiro, poslinha, poscoluna);
+                contador++;
+                printf("contador: %d\n", contador);
+                printf("id peça a: %d\n", tipoPeca);
+                printf( "variante a: %d\n", variante);
+                if (status == 0){
                 break;
+                if(contador == 3){
+                    variante = 5;
+                    tipoPeca = 1;
+                }
             }
-            contador++;
-        }
 
+        } 
+        
+        
         printf("id peça %d\n", tipoPeca);
         printf( "variante: %d\n", variante);
         if (tipoPeca != 0)
         {
             numpecas--;
+            
             print_peca(tipoPeca,variante,tabuleiro,poslinha,poscoluna);
-            //verificapeca();
+            
             if (numpecas == 0){
                 break;            
             }
@@ -172,4 +180,90 @@ int analisar_pecas(int tabuleiro[25][35],int poslinha,int poscoluna)
         }
     }
     return 0;
+}
+
+
+
+
+
+
+
+
+
+
+void coloca_peca(int tabuleiro[25][35], int submat, int colunas)
+{
+    int pos = 0;
+    srand(time(NULL));
+    int flag = 0; //quando flag = 0 pode-se colocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz
+    int contador = 0; //irá contar o número de tentativas a colocar uma peça na matriz
+    //Inicialização das coordenadas de posicionamento (poslinha, poscoluna)
+    int poscoluna = 0;
+    int poslinha = 0;
+
+    //inicializa a variante e o tipo de peça
+    int variante = -1;
+    int tipoPeca = -1;
+
+    int numpecas = submat; //restrição nº2
+    printf("nº de peças %d\n", numpecas);
+
+    for ( pos = 0; pos < submat; pos++)
+    {
+        //escolhe o tipo de peça aleatoriamente
+        tipoPeca = rand()%8 + 1;
+        
+        //Escolhe a variante aleatoriamente
+        switch (tipoPeca)
+        {
+        case 1:
+            variante = (rand()%9) + 1;
+            break;
+
+        case 2:
+            variante = (rand()%12) + 1;
+            break;
+
+        case 3:
+            variante = (rand()%6) + 1;
+            break;
+
+        case 4:
+        case 5:
+        case 6:
+            variante = (rand()%4) + 1;
+            break;
+
+        case 7:
+            variante = (rand()%2) + 1;
+            break;
+
+        case 8:
+            variante = 1;
+            break;
+        
+        default:
+            break;
+        }
+
+        
+        
+        printf("id peça %d\n", tipoPeca);
+        printf( "variante: %d\n", variante);
+        if (tipoPeca != 0)
+        {
+            numpecas--;
+            print_peca(tipoPeca,variante,tabuleiro,poslinha,poscoluna);
+            //verificapeca();
+            if (numpecas == 0){
+                break;            
+            }
+        }
+        poscoluna += 3;
+        if(poscoluna >= colunas - 1){
+            poscoluna = 0;
+            poslinha += 3;
+
+        }
+    }
 }

@@ -24,6 +24,7 @@ void imprimir_tabuleiro(int tabuleiro[25][35], int linhas, int colunas)
         }
         printf("\n");
     }
+    //Imprime as letras
     printf("     A");
     for (v = 0; v < colunas - 1; v++)
     {
