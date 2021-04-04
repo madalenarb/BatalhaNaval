@@ -46,7 +46,7 @@ int return_id_global( int id_peca, int id_variante)
     return id_global;
 }
 
-void coloca_peca(int tabuleiro[25][35], int submat, int colunas)
+void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
 {
     int pos = 0;
     srand(time(NULL));
@@ -102,21 +102,26 @@ void coloca_peca(int tabuleiro[25][35], int submat, int colunas)
                 default:
                     break;
             }
-            printf("%d\n", contador);
-            printf("variante : %d \n", variante);
-            printf("id_globalaa : %d \n", tipoPeca);
-            flag = analisar_pecas(tabuleiro, poslinha, poscoluna);
-            if (flag == 0){
+            //printf("%d\n", contador);
+            //printf("variante : %d \n", variante);
+            //printf("id_globalaa : %d \n", tipoPeca);
+            //flag = verificar_pecas(tabuleiro);
+            //printf("flag = %d\n", flag);
+            /*if (flag == 0){
                 break;
-            }
-            contador++;
+            }*/
         }
+       /* if (flag == 1){
+            tipoPeca = 1;
+            variante = 5;
+        }*/
 
-        printf("id peça %d\n", tipoPeca);
-        printf( "variante: %d\n", variante);
+        //printf("id peça %d\n", tipoPeca);
+        //printf( "variante: %d\n", variante);
         if (tipoPeca != 0)
         {
             numpecas--;
+            analisar_pecas(tabuleiro, linhas, colunas);
             print_peca(tipoPeca,variante,tabuleiro,poslinha,poscoluna);
             //verificapeca();
             if (numpecas == 0){
@@ -141,35 +146,58 @@ void print_peca( int id_peca, int id_variante, int tabuleiro[25][35], int poslin
 
 //retrição 1
 
-int analisar_pecas(int tabuleiro[25][35],int poslinha,int poscoluna)
+void analisar_pecas(int tabuleiro[25][35], int colunas, int linhas)
 {
-    int i,j;
-    for (i = 0; i < 3; i++){
-        for ( j = -1; j < 2; j++)
+    int i,j,n;
+    for (i = 0; i < linhas; i++){
+        for ( j = 0; j < colunas; j++)
         {
-            /*
-            return 1:indica que é uma posição inválida
-            posição inválida: se houver uma peça adjacente ou na diagonal relativamente a outra, 
 
-            analisa a fronteira da direita da matrix 3x3 e faz return 1 se a posição for inválida
-            */
-            if( tabuleiro[poslinha + 2][poscoluna + i] != 0  && tabuleiro[poslinha + 3][poscoluna + j] != 0 ){
-                return 1;
-            }
-            // analisa a fronteira inferior da matrix 3x3 e faz return
-            if( tabuleiro[poslinha + i][poscoluna + 2] != 0  && tabuleiro[poslinha + j][poscoluna + 3] != 0 ){
-                return 1;
-            }
-            // analisa a fronteira da esquerda da matrix 3x3 e faz return
-            if ( tabuleiro[poslinha][poscoluna + i] != 0 && tabuleiro[poslinha - 1][poscoluna + j] != 0 )
-            {
-                return 1;
-            }
-            // analisa a fronteira superior da matrix 3x3 e faz return
-            if (tabuleiro[poslinha + i][poscoluna] != 0 && tabuleiro[poslinha + j][poscoluna - 1]){
-                return 1;
+            if ( tabuleiro[i][j] > 0 ){
+                if( i > 0 && j < colunas ){
+                    if( tabuleiro[i - 1][j + 1] == 0 ){
+                        tabuleiro[i - 1][j + 1 ] = -1;
+                    }
+                }
+
+                if( i < linhas && j < colunas ){
+                    if ( tabuleiro[i + 1][j + 1] == 0 ){
+                        tabuleiro[i + 1][j + 1] = -1;
+                    }
+                }
+
+                if( i < linhas && j > 0 ){
+                    if(tabuleiro[ i + 1 ][j - 1] == 0){
+                        tabuleiro[ i + 1 ][j - 1] = -1;
+                    }
+                }
+
+                if( i < linhas ){
+                    if (tabuleiro[ i + 1 ][j] == 0){
+                        tabuleiro[i + 1][j] = -1;
+                    }
+                }
+
+                if( j < colunas ){
+                    if ( tabuleiro[i][j + 1] == 0 ){
+                        tabuleiro[i][j + 1] = -1;
+                    }
+                }
             }
         }
     }
-    return 0;
+}
+
+int verificar_pecas(int tabuleiro[25][35])
+{
+    int i = 0, j = 0;
+    for (i = 0; i < 3; i++){
+        for (j = 0; j < 3; j++){
+            if (tabuleiro[i][j] == -1){
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
 }

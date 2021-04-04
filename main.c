@@ -96,24 +96,22 @@ int main(int argc, char *argv[])
     /*
     testar a impressão de peças aleatorias:
     */
-   
+    /*
     int numdemat = submat(linhas,colunas); //numero de matrizes 3x3 num tabuleiro
-    coloca_peca(tabuleiro, numdemat, colunas);
+    coloca_peca(tabuleiro, numdemat, linhas, colunas);
     imprimir_tabuleiro(tabuleiro, linhas, colunas);
     printf("\n submat = %d\n\n", numdemat);
+    */
     
     
-    
-        //Testa todas as peças
-    /*
+    //Testa todas as peças
    for( i = 1; i <= 42; i++ ){
     bibliotecadepecas(0,0,i,tabuleiro);
     printf("%d\n\n", i);
+    analisar_pecas(tabuleiro, colunas, linhas);
     imprimir_tabuleiro(tabuleiro, linhas, colunas);
     apagar_tabuleiro(tabuleiro, linhas, colunas);
-   }
-   */
-   
+    }
 }
 
 
