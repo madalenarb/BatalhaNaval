@@ -49,6 +49,7 @@ int return_id_global( int id_peca, int id_variante)
 void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
 {
     int pos = 0;
+    int tabuleiro2[25][35] = {0}; // tabuleiro que será usado para comparar 
     srand(time(NULL));
     int flag = 0; //quando flag = 0 pode-se colocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz
     int contador = 1; //irá contar o número de tentativas a colocar uma peça na matriz
@@ -67,62 +68,29 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
     {
         for ( contador = 1; contador <= 3; contador++ )
         {
-            //escolhe o tipo de peça aleatoriamente
-            tipoPeca = rand()%8 + 1;
-            
-            //Escolhe a variante aleatoriamente
-            switch (tipoPeca)
-            {
-                case 1:
-                    variante = (rand()%9) + 1;
-                    break;
-
-                case 2:
-                    variante = (rand()%12) + 1;
-                    break;
-
-                case 3:
-                    variante = (rand()%6) + 1;
-                    break;
-
-                case 4:
-                case 5:
-                case 6:
-                    variante = (rand()%4) + 1;
-                    break;
-
-                case 7:
-                    variante = (rand()%2) + 1;
-                    break;
-
-                case 8:
-                    variante = 1;
-                    break;
-                
-                default:
-                    break;
+            while ( 1 ){
+            tipoPeca = tipo_peca();
+            variante = det_variante(tipoPeca);
+            printf("id peça %d\n", tipoPeca);
+            printf( "variante: %d\n", variante);
             }
+
             //printf("%d\n", contador);
-            //printf("variante : %d \n", variante);
-            //printf("id_globalaa : %d \n", tipoPeca);
+            printf("variante : %d \n", variante);
+            printf("id_globalaa : %d \n", tipoPeca);
             //flag = verificar_pecas(tabuleiro);
-            //printf("flag = %d\n", flag);
-            /*if (flag == 0){
-                break;
-            }*/
         }
-       /* if (flag == 1){
-            tipoPeca = 1;
-            variante = 5;
-        }*/
 
         //printf("id peça %d\n", tipoPeca);
         //printf( "variante: %d\n", variante);
         if (tipoPeca != 0)
         {
             numpecas--;
-            analisar_pecas(tabuleiro, linhas, colunas);
+            analisar_pecas(tabuleiro, tabuleiro2, linhas, colunas);
             print_peca(tipoPeca,variante,tabuleiro,poslinha,poscoluna);
+            flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
+            printf("flag = %d\n", flag);
+            imprimir_tabuleiro(tabuleiro, linhas, colunas); //TESTE
             //verificapeca();
             if (numpecas == 0){
                 break;            
@@ -137,6 +105,50 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
     }
 }
 
+int tipo_peca(void){
+    int tipoPeca = 0;
+    int variante = 0;
+    srand(time(0));
+    return rand()%8 + 1;
+    }
+
+int det_variante(int tipoPeca){ 
+    int variante = 0;
+    srand(time(0));
+    switch (tipoPeca)
+    {
+        case 1:
+            variante = (rand()%9) + 1;
+            break;
+
+        case 2:
+            variante = (rand()%12) + 1;
+            break;
+
+        case 3:
+            variante = (rand()%6) + 1;
+            break;
+
+        case 4:
+        case 5:
+        case 6:
+            variante = (rand()%4) + 1;
+            break;
+
+        case 7:
+            variante = (rand()%2) + 1;
+            break;
+
+        case 8:
+            variante = 1;
+            break;
+        
+        default:
+            break;
+    }
+    return variante;
+}
+
 void print_peca( int id_peca, int id_variante, int tabuleiro[25][35], int poslinha, int poscoluna)
 {
     int id_global = return_id_global( id_peca, id_variante);
@@ -146,58 +158,60 @@ void print_peca( int id_peca, int id_variante, int tabuleiro[25][35], int poslin
 
 //retrição 1
 
-void analisar_pecas(int tabuleiro[25][35], int colunas, int linhas)
+void analisar_pecas(int tabuleiro[25][35], int tabuleiro2[25][35], int colunas, int linhas)
 {
     int i,j,n;
-    for (i = 0; i < linhas; i++){
-        for ( j = 0; j < colunas; j++)
+    for ( i = 0; i < linhas; i++ ){
+        for ( j = 0; j < colunas; j++ )
         {
 
             if ( tabuleiro[i][j] > 0 ){
                 if( i > 0 && j < colunas ){
                     if( tabuleiro[i - 1][j + 1] == 0 ){
-                        tabuleiro[i - 1][j + 1 ] = -1;
+                        tabuleiro2[i - 1][j + 1 ] = -1;
                     }
                 }
 
                 if( i < linhas && j < colunas ){
                     if ( tabuleiro[i + 1][j + 1] == 0 ){
-                        tabuleiro[i + 1][j + 1] = -1;
+                        tabuleiro2[i + 1][j + 1] = -1;
                     }
                 }
 
                 if( i < linhas && j > 0 ){
                     if(tabuleiro[ i + 1 ][j - 1] == 0){
-                        tabuleiro[ i + 1 ][j - 1] = -1;
+                        tabuleiro2[ i + 1 ][j - 1] = -1;
                     }
                 }
 
                 if( i < linhas ){
                     if (tabuleiro[ i + 1 ][j] == 0){
-                        tabuleiro[i + 1][j] = -1;
+                        tabuleiro2[i + 1][j] = -1;
                     }
                 }
 
                 if( j < colunas ){
                     if ( tabuleiro[i][j + 1] == 0 ){
-                        tabuleiro[i][j + 1] = -1;
+                        tabuleiro2[i][j + 1] = -1;
                     }
                 }
             }
         }
     }
+    imprimir_tabuleiro(tabuleiro2, linhas, colunas);
 }
 
-int verificar_pecas(int tabuleiro[25][35])
+int verificar_pecas(int tabuleiro[25][35], int tabuleiro2[25][35], int poslinha, int poscoluna)
 {
     int i = 0, j = 0;
     for (i = 0; i < 3; i++){
         for (j = 0; j < 3; j++){
-            if (tabuleiro[i][j] == -1){
-                return 1;
-            } else {
-                return 0;
+            if (tabuleiro[i + poslinha][j + poscoluna] > 0){
+                if ( tabuleiro2[i + poslinha][j + poscoluna] == -1){
+                    return 1;
+                }
             }
         }
     }
+
 }
