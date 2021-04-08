@@ -51,9 +51,9 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
     //inicializa a variante e o tipo de peça
     //int id_global = return_id_global(tipoPeca, variante);
     int pos = 0;
+    int contador, flag, id_global;
     int tabuleiro2[25][35] = {0}; // tabuleiro que será usado para comparar
     srand(time(NULL));
-    int contador = 0; //irá contar o número de tentativas a colocar uma peça na matriz
     //Inicialização das coordenadas de posicionamento (poslinha, poscoluna)
     int poscoluna = 0;
     int poslinha = 0;
@@ -63,8 +63,9 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
 
     for ( pos = 0; pos < submat; pos++)
     {
-        int flag = 0; //quando flag = 0 pode-se colocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz
-        int id_global = id_global_aleatorio();
+        flag = 0; //quando flag = 0 pode-se colocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz
+        id_global = id_global_aleatorio();
+        contador = 0; //irá contar o número de tentativas a colocar uma peça na matriz
 
         //printf("id peça %d\n", tipoPeca);
         //printf( "variante: %d\n", variante);
@@ -83,15 +84,15 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
                 print_peca(id_global, tabuleiro, poslinha, poscoluna);
                 flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
                 printf("flag = %d\n", flag);
+                printf("contador= %d\n", contador);
                 imprimir_tabuleiro(tabuleiro, linhas, colunas); //TESTE
                 contador++;
-                printf("contador= %d\n", contador);
                 if(contador >= 3){
-                apagar_submat(tabuleiro, poslinha, poscoluna);
-                id_global = 5;
-                print_peca(id_global, tabuleiro, poslinha, poscoluna);
-                flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
-                imprimir_tabuleiro(tabuleiro, linhas, colunas); //TESTE
+                    apagar_submat(tabuleiro, poslinha, poscoluna);
+                    id_global = 5;
+                    print_peca(id_global, tabuleiro, poslinha, poscoluna);
+                    flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
+                    imprimir_tabuleiro(tabuleiro, linhas, colunas); //TESTE
                 }
             }
 
