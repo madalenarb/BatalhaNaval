@@ -48,61 +48,54 @@ int return_id_global( int id_peca, int id_variante)
 
 void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
 {
+    //inicializa a variante e o tipo de peça
+    //int id_global = return_id_global(tipoPeca, variante);
     int pos = 0;
-    int tabuleiro2[25][35] = {0}; // tabuleiro que será usado para comparar 
+    int tabuleiro2[25][35] = {0}; // tabuleiro que será usado para comparar
     srand(time(NULL));
-    int flag = 0; //quando flag = 0 pode-se colocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz
-    int contador = 1; //irá contar o número de tentativas a colocar uma peça na matriz
+    int contador = 0; //irá contar o número de tentativas a colocar uma peça na matriz
     //Inicialização das coordenadas de posicionamento (poslinha, poscoluna)
     int poscoluna = 0;
     int poslinha = 0;
-
-    //inicializa a variante e o tipo de peça
-    int variante = -1;
-    int tipoPeca = -1;
 
     int numpecas = submat; //restrição nº2
     printf("nº de peças %d\n", numpecas);
 
     for ( pos = 0; pos < submat; pos++)
     {
-        tipoPeca = tipo_peca();
-        variante = det_variante(tipoPeca);
-            printf("id peça %d\n", tipoPeca);
-            printf( "variante: %d\n", variante);
+        int flag = 0; //quando flag = 0 pode-se colocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz
+        int id_global = id_global_aleatorio();
 
         //printf("id peça %d\n", tipoPeca);
         //printf( "variante: %d\n", variante);
-        if (tipoPeca != 0)
+        if (id_global != 0)
         {
             numpecas--;
-            analisar_pecas(tabuleiro, tabuleiro2, linhas, colunas);
-            print_peca(tipoPeca,variante,tabuleiro,poslinha,poscoluna);
+            print_peca(id_global, tabuleiro, poslinha, poscoluna);
             flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
             printf("flag = %d\n", flag);
+            imprimir_tabuleiro(tabuleiro, linhas, colunas); //TESTE
 
-            if( flag != 0 ){
-                for( contador = 0; contador < 3; contador++ ){
-                    apagar_submat(tabuleiro, tabuleiro2, poslinha, poscoluna);
-                    tipoPeca = tipo_peca();
-                    variante = det_variante(tipoPeca);
-                    print_peca(tipoPeca,variante,tabuleiro,poslinha,poscoluna);
-                    flag = verificar_pecas(tabuleiro, tabuleiro, poslinha, poscoluna);
-                    printf("variante : %d \n", variante);
-                    printf("id_globalaa : %d \n", tipoPeca);
-                    printf("flag = %d\n", flag);
-                    if( flag == 0 ){
-                        break;
-                    }
+            while( flag == 1 ){
+                apagar_submat(tabuleiro, poslinha, poscoluna);
+                printf("HI\n");
+                id_global = id_global_aleatorio();
+                print_peca(id_global, tabuleiro, poslinha, poscoluna);
+                flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
+                printf("flag = %d\n", flag);
+                imprimir_tabuleiro(tabuleiro, linhas, colunas); //TESTE
+                contador++;
+                printf("contador= %d\n", contador);
+                if(contador >= 3){
+                apagar_submat(tabuleiro, poslinha, poscoluna);
+                id_global = 5;
+                print_peca(id_global, tabuleiro, poslinha, poscoluna);
+                flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
+                imprimir_tabuleiro(tabuleiro, linhas, colunas); //TESTE
                 }
             }
-                if (flag == 1){
-                    apagar_submat(tabuleiro, tabuleiro, poslinha, poscoluna);
-                    tipoPeca = 1;
-                    variante = 5;
-                    print_peca(tipoPeca,variante,tabuleiro,poslinha,poscoluna);
-                    flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
-                }
+
+            analisar_pecas(tabuleiro, tabuleiro2, linhas, colunas);
             imprimir_tabuleiro(tabuleiro, linhas, colunas); //TESTE
             //verificapeca();
             if (numpecas == 0){
@@ -118,51 +111,14 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
     }
 }
 
-int tipo_peca(void){
-    int tipoPeca = 0;
-    int variante = 0;
-    return rand()%8 + 1;
-    }
-
-int det_variante(int tipoPeca){ 
-    int variante = 0;
-    switch (tipoPeca)
-    {
-        case 1:
-            variante = (rand()%9) + 1;
-            break;
-
-        case 2:
-            variante = (rand()%12) + 1;
-            break;
-
-        case 3:
-            variante = (rand()%6) + 1;
-            break;
-
-        case 4:
-        case 5:
-        case 6:
-            variante = (rand()%4) + 1;
-            break;
-
-        case 7:
-            variante = (rand()%2) + 1;
-            break;
-
-        case 8:
-            variante = 1;
-            break;
-        
-        default:
-            break;
-    }
-    return variante;
+int id_global_aleatorio(void){
+    int id_global = 0;
+    id_global = rand()%41 + 1;
+    return id_global;
 }
 
-void print_peca( int id_peca, int id_variante, int tabuleiro[25][35], int poslinha, int poscoluna)
+void print_peca( int id_global, int tabuleiro[25][35], int poslinha, int poscoluna)
 {
-    int id_global = return_id_global( id_peca, id_variante);
     printf("id_global = %d\n\n\n", id_global);
     bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
 }
