@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
     int numdemat = submat(linhas,colunas); //numero de matrizes 3x3 num tabuleiro
     coloca_peca(tabuleiro, numdemat, linhas, colunas);
     imprimir_tabuleiro(tabuleiro, linhas, colunas);
-    printf("\n submat = %d\n\n", numdemat);
+    //printf("\n submat = %d\n\n", numdemat);
     
     
     
@@ -115,22 +115,3 @@ int main(int argc, char *argv[])
     }
    */
 }
-
-
-
-/*void colocar_peca(int tabuleiro[15][24], int x, int y, int identificadorPeca, int identificadorVariante)
-{
-    if(identificadorPeca == 1){
-        tabuleiro[(x + identificadorVariante)%3][y] = 1;
-    }
-}
-
-void apagar_tabuleiro(int tabuleiro, int linhas, int colunas)
-{
-    int i;
-    for ( i = 0; i < linhas; i++)
-    {
-        printf("0")
-    }
-    
-}*/
