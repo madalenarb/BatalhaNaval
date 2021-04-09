@@ -50,6 +50,7 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
 {
     //inicializa a variante e o tipo de peça
     //int id_global = return_id_global(tipoPeca, variante);
+    int i = 0;
     int pos = 0;
     int contador, flag, id_global;
     int tabuleiro2[25][35] = {0}; // tabuleiro que será usado para comparar
@@ -57,6 +58,8 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
     //Inicialização das coordenadas de posicionamento (poslinha, poscoluna)
     int poscoluna = 0;
     int poslinha = 0;
+    int n_tipo_peca = 0;
+    int contador_pecas[8] = {0};
 
     int numpecas = submat; //restrição nº2
     printf("nº de peças %d\n", numpecas);
@@ -72,16 +75,15 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
         if (id_global != 0)
         {
             numpecas--;
-            print_peca(id_global, tabuleiro, poslinha, poscoluna);
+            n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
             flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
             printf("flag = %d\n", flag);
             imprimir_tabuleiro(tabuleiro, linhas, colunas); //TESTE
 
             while( flag == 1 ){
                 apagar_submat(tabuleiro, poslinha, poscoluna);
-                printf("HI\n");
                 id_global = id_global_aleatorio();
-                print_peca(id_global, tabuleiro, poslinha, poscoluna);
+                n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
                 flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
                 printf("flag = %d\n", flag);
                 printf("contador= %d\n", contador);
@@ -90,19 +92,26 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
                 if(contador >= 3){
                     apagar_submat(tabuleiro, poslinha, poscoluna);
                     id_global = 5;
-                    print_peca(id_global, tabuleiro, poslinha, poscoluna);
+                    n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
                     flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
                     imprimir_tabuleiro(tabuleiro, linhas, colunas); //TESTE
                 }
             }
 
             analisar_pecas(tabuleiro, tabuleiro2, linhas, colunas);
-            imprimir_tabuleiro(tabuleiro, linhas, colunas); //TESTE
+            contador_pecas[n_tipo_peca - 1]++;
+            for( i = 0; i < 8; i++ ){
+                printf("peca %d: %d \n", i + 1, contador_pecas[i]);
+            }
+            imprimir_tabuleiro(tabuleiro, linhas, colunas);
             //verificapeca();
             if (numpecas == 0){
                 break;            
             }
+        } else if ( id_global == 0 ){
+            pos++;
         }
+
         poscoluna += 3;
         if(poscoluna >= colunas - 1){
             poscoluna = 0;
@@ -114,15 +123,11 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
 
 int id_global_aleatorio(void){
     int id_global = 0;
-    id_global = rand()%41 + 1;
+    id_global = rand()%42;
     return id_global;
 }
 
-void print_peca( int id_global, int tabuleiro[25][35], int poslinha, int poscoluna)
-{
-    printf("id_global = %d\n\n\n", id_global);
-    bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
-}
+
 
 //retrição 1
 
@@ -181,5 +186,4 @@ int verificar_pecas(int tabuleiro[25][35], int tabuleiro2[25][35], int poslinha,
             }
         }
     }
-
 }
