@@ -46,7 +46,7 @@ int return_id_global( int id_peca, int id_variante)
     return id_global;
 }
 
-void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
+void p_1(int tabuleiro[25][35], int numpecas, int linhas, int colunas)
 {
     //inicializa a variante e o tipo de peça
     //int id_global = return_id_global(tipoPeca, variante);
@@ -60,11 +60,9 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
     int poslinha = 0;
     int n_tipo_peca = 0;
     int contador_pecas[8] = {0};
-
-    int numpecas = submat; //restrição nº2
     printf("nº de peças %d\n", numpecas);
 
-    for ( pos = 0; pos < submat; pos++)
+    for ( pos = 0; pos < numpecas; pos++)
     {
         flag = 0; //quando flag = 0 pode-se c8olocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz
         id_global = id_global_aleatorio();
@@ -118,6 +116,7 @@ void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
         }
     }
 }
+
 
 int id_global_aleatorio(void){
     int id_global = 0;

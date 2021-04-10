@@ -32,29 +32,32 @@ int main(int argc, char *argv[])
         modoJogo = DEFAULT_MODO_JOGO,
         modoPosicionamento = DEFAULT_MODO_POSICIONAMENTO,
         modoDisparo = DEFAULT_MODO_DISPARO;
+    int n_pecas[8] = {0};
     int tabuleiro[25][35] = {0};
     char opt = 'h'; // opção para getopt()
 
     // opções da linha de comandos:
-    while ((opt = getopt(argc,argv,"ht:j:p:d:1234568")) != -1)
+    while ((opt = getopt(argc,argv,"ht:j:p:d:1:2:3:4:5:6:8:")) != -1)
     {
         //printf("%c",opt);
         switch(opt) {
             case 't':
                 sscanf(optarg, "%dx%d", &linhas, &colunas);
                 //printf("%dx%d\n", linhas, colunas);
-                if ( linhas < 9 || colunas < 9 || linhas > 15 || colunas > 24 || linhas % 3 != 0 || colunas % 3 != 0)
+                if ( linhas < 9 || colunas < 9 || linhas > 15 || colunas > 24 || linhas % 3 != 0 || colunas % 3 != 0 )
                 {
+                    printf("A dimensão do tabuleiro deve ser no mínimo 9x9 e no máximo 15x24\n\n");
                     printf("-1\n");
                     return EXIT_FAILURE;
                 }
-
                 break;
+
             case 'j':
                 sscanf(optarg,"%d", &modoJogo);
                 //printf("j = %d\n", modoJogo);
-                if (modoJogo < 0 || modoJogo > 2){
-                    printf("-1");
+                if ( modoJogo < 0 || modoJogo > 2 ){
+                    printf("O modo do jogo é de 0 a 2\n");
+                    printf("-1\n");
                     return EXIT_FAILURE;
                 }
                 break;
@@ -63,20 +66,136 @@ int main(int argc, char *argv[])
                 sscanf(optarg, "%d", &modoPosicionamento);
                 //printf("p = %d\n", modoPosicionamento);
                 if (modoPosicionamento < 1 || modoPosicionamento > 2){
-                    printf ("-1");
-                    return EXIT_FAILURE;
-                }                
+                    printf ("O modo de posicionamento das peças é de 1 a 2\n");
+                    printf("-1\n");
+                    return EXIT_FAILURE;   
+                }           
                 break;
-            
+
             case 'd':
                 sscanf(optarg, "%d", &modoDisparo);
                 //printf("d = %d\n", modoDisparo);
                 if (modoDisparo < 1 || modoDisparo > 3)
                 {
-                    printf ("-1");
+                    printf("O modo de disparo das peças é de 1 a 3\n");
+                    return EXIT_FAILURE;
+                }
+                if( modoJogo == 0 || modoJogo == 1 ){
+                    instrucoes(argv[0]);
                     return EXIT_FAILURE;
                 }
                 break;
+
+            case '1':
+                sscanf(optarg, "%d", &n_pecas[0]);
+                if( n_pecas[0] <= 0 ){
+                    return EXIT_FAILURE;
+                }
+
+                if( modoPosicionamento == 1 && ( modoJogo == 0 || modoJogo == 1) ){
+                    printf("-1\n");
+                    return EXIT_FAILURE;
+                }   
+                break;
+
+            case '2':
+                sscanf(optarg, "%d", &n_pecas[1]);
+                if( n_pecas[1] >= n_pecas[0] || n_pecas[1] < 0 ){   // se o nº de pecas não for fonecido 2 em p_2?   e se inserirem um nº de pecas de tipo 3 < nº de pecas de tipo 7
+                    printf("Não se pode inserir um maior número de peças de um tipo de maior dimensão do que peças de um tipo de menor dimensão.\n");
+                    instrucoes(argv[0]);
+                    return EXIT_FAILURE;
+                }
+
+                if( modoPosicionamento == 1 && ( modoJogo == 0 || modoJogo == 1) ){
+                    printf("-1\n");
+                    return EXIT_FAILURE;
+                }   
+                break;
+
+            case '3':
+                sscanf(optarg, "%d", &n_pecas[2]);
+                if( n_pecas[2] >= n_pecas[1] || n_pecas[2] < 0 ){
+                    printf("Não se pode inserir um maior número de peças de um tipo de maior dimensão do que peças de um tipo de menor dimensão.\n");
+                    instrucoes(argv[0]);
+                    return EXIT_FAILURE;
+                }
+
+                if( modoPosicionamento == 1 && ( modoJogo == 0 || modoJogo == 1) ){
+                    printf("-1\n");
+                    return EXIT_FAILURE;
+                }   
+                break;
+
+            case '4':
+                sscanf(optarg, "%d", &n_pecas[3]);
+                if( n_pecas[3] >= n_pecas[2] || n_pecas[3] < 0 ){
+                    printf("Não se pode inserir um maior número de peças de um tipo de maior dimensão do que peças de um tipo de menor dimensão.\n");
+                    instrucoes(argv[0]);
+                    return EXIT_FAILURE;
+                }
+
+                if( modoPosicionamento == 1 && ( modoJogo == 0 || modoJogo == 1) ){
+                    printf("-1\n");
+                    return EXIT_FAILURE;
+                }   
+                break;
+
+            case '5':
+                sscanf(optarg, "%d", &n_pecas[4]);
+                if( n_pecas[4] >= n_pecas[3] || n_pecas[4] < 0 ){
+                    printf("Não se pode inserir um maior número de peças de um tipo de maior dimensão do que peças de um tipo de menor dimensão.\n");
+                    instrucoes(argv[0]);
+                    return EXIT_FAILURE;
+                }
+
+                if( modoPosicionamento == 1 && ( modoJogo == 0 || modoJogo == 1) ){
+                    printf("-1\n");
+                    return EXIT_FAILURE;
+                }   
+                break;
+
+            case '6':
+                sscanf(optarg, "%d", &n_pecas[5]);
+                if( n_pecas[5] >= n_pecas[4]|| n_pecas[5] < 0  ){
+                    printf("Não se pode inserir um maior número de peças de um tipo de maior dimensão do que peças de um tipo de menor dimensão.\n");
+                    instrucoes(argv[0]);
+                    return EXIT_FAILURE;
+                }
+
+                if( modoPosicionamento == 1 && ( modoJogo == 0 || modoJogo == 1) ){
+                    printf("-1\n");
+                    return EXIT_FAILURE;
+                }   
+                break;
+
+            case '7':
+                sscanf(optarg, "%d", &n_pecas[6]);
+                if( n_pecas[6] >= n_pecas[5] || n_pecas[6] < 0 ){
+                    printf("Não se pode inserir um maior número de peças de um tipo de maior dimensão do que peças de um tipo de menor dimensão.\n");
+                    instrucoes(argv[0]);
+                    return EXIT_FAILURE;
+                }
+
+                if( modoPosicionamento == 1 && ( modoJogo == 0 || modoJogo == 1) ){
+                    printf("-1\n");
+                    return EXIT_FAILURE;
+                }   
+                break;
+
+            case '8':
+                sscanf(optarg, "%d", &n_pecas[7]);
+                if( n_pecas[7] >= n_pecas[6] || n_pecas[7] < 0 ){
+                    printf("Não se pode inserir um maior número de peças de um tipo de maior dimensão do que peças de um tipo de menor dimensão.\n");
+                    instrucoes(argv[0]);
+                    return EXIT_FAILURE;
+                }
+
+                if( modoPosicionamento == 1 && ( modoJogo == 0 || modoJogo == 1) ){
+                    printf("-1\n");
+                    return EXIT_FAILURE;
+                }   
+                break;
+
             default: //opções inválidas
                 printf("Erro: opção '%c' desconhecida \n\n", optopt);
             case 'h':
@@ -85,6 +204,7 @@ int main(int argc, char *argv[])
                 break;
         }
     }
+
     //instrucoes();
     //imprimir_tabuleiro(tabuleiro, linhas, colunas);
     /*for ( i = 0; i < 2; i++ )
@@ -97,10 +217,14 @@ int main(int argc, char *argv[])
     testar a impressão de peças aleatorias:
     */
     
-    int numdemat = submat(linhas,colunas); //numero de matrizes 3x3 num tabuleiro
-    coloca_peca(tabuleiro, numdemat, linhas, colunas);
-    imprimir_tabuleiro(tabuleiro, linhas, colunas);
-    //printf("\n submat = %d\n\n", numdemat);
+    if ( modoJogo == 0 ){
+        if( modoPosicionamento == 1 ){
+            int numdemat = submat(linhas,colunas); //numero de matrizes 3x3 num tabuleiro
+            p_1(tabuleiro, numdemat, linhas, colunas);
+            imprimir_tabuleiro(tabuleiro, linhas, colunas);
+            //printf("\n submat = %d\n\n", numdemat);
+        }
+    }
     
     
     
