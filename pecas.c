@@ -117,13 +117,16 @@ void p_1(int tabuleiro[25][35], int numpecas, int linhas, int colunas)
     }
 }
 
+void p_2(int tabuleiro[25][35], int numpecas, int linhas, int colunas)
+{
+    
+}
 
 int id_global_aleatorio(void){
     int id_global = 0;
     id_global = rand()%43;
     return id_global;
 }
-
 
 
 //retrição 1
