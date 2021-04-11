@@ -6,7 +6,7 @@ int submat(int colunas, int linhas)
 {
     int comprimento = colunas/3;
     int largura = linhas/3;
-    return (comprimento*largura);
+    return (comprimento * largura);
 }
 
 

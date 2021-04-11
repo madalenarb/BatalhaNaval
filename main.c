@@ -80,10 +80,14 @@ int main(int argc, char *argv[])
                     printf("O modo de disparo das peças é de 1 a 3\n");
                     return EXIT_FAILURE;
                 }
-                if( modoJogo == 0 || modoJogo == 1 ){
+
+                if( modoJogo == 0 || modoJogo == 1 ){ // a opção -[d] só funciona no modo de jogo 2
                     instrucoes(argv[0]);
                     return EXIT_FAILURE;
                 }
+
+                if( modoJogo == 2 && modoDisparo)
+
                 break;
 
             case '1':
@@ -190,7 +194,7 @@ int main(int argc, char *argv[])
                     return EXIT_FAILURE;
                 }
 
-                if( modoPosicionamento == 1 && ( modoJogo == 0 || modoJogo == 1) ){
+                if( modoPosicionamento == 1 && ( modoJogo == 0 || modoJogo == 1) ){ // No modo de jogo 0 e 1 apenas são válidas as opções -[8-9] quando se considera o posicionamento modo_p2
                     printf("-1\n");
                     return EXIT_FAILURE;
                 }   
@@ -216,17 +220,17 @@ int main(int argc, char *argv[])
     /*
     testar a impressão de peças aleatorias:
     */
+
+    printf("linhas: %d\n colunas: %d\n", linhas, colunas);
+    int sub_mat = 0;
+    sub_mat = submat(linhas,colunas); //numero de matrizes 3x3 num tabuleiro
+    coloca_peca(tabuleiro, sub_mat, linhas, colunas);
+    imprimir_tabuleiro(tabuleiro, linhas, colunas);
+    printf("\n submat = %d\n\n", sub_mat);
     
-    if ( modoJogo == 0 ){
-        if( modoPosicionamento == 1 ){
-            int numdemat = submat(linhas,colunas); //numero de matrizes 3x3 num tabuleiro
-            p_1(tabuleiro, numdemat, linhas, colunas);
-            imprimir_tabuleiro(tabuleiro, linhas, colunas);
-            //printf("\n submat = %d\n\n", numdemat);
-        }
-    }
-    
-    
+    printf("%dx%d", linhas, colunas);
+
+    //bruhhhhhh pls gimme 20 UwU Kawaii
     
     //Testa todas as peças
     /*

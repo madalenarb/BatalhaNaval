@@ -46,7 +46,7 @@ int return_id_global( int id_peca, int id_variante)
     return id_global;
 }
 
-void p_1(int tabuleiro[25][35], int numpecas, int linhas, int colunas)
+void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
 {
     //inicializa a variante e o tipo de peça
     //int id_global = return_id_global(tipoPeca, variante);
@@ -60,10 +60,13 @@ void p_1(int tabuleiro[25][35], int numpecas, int linhas, int colunas)
     int poslinha = 0;
     int n_tipo_peca = 0;
     int contador_pecas[8] = {0};
+
+    int numpecas = submat; //restrição nº2
     printf("nº de peças %d\n", numpecas);
 
-    for ( pos = 0; pos < numpecas; pos++)
+    for ( pos = 0; pos < submat; pos++)
     {
+        printf("pos%dx%d\n", poslinha, poscoluna);
         flag = 0; //quando flag = 0 pode-se c8olocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz
         id_global = id_global_aleatorio();
         contador = 0; //irá contar o número de tentativas a colocar uma peça na matriz
@@ -95,11 +98,13 @@ void p_1(int tabuleiro[25][35], int numpecas, int linhas, int colunas)
 
             analisar_pecas(tabuleiro, tabuleiro2, linhas, colunas);
             contador_pecas[n_tipo_peca - 1]++;
-            /*
+            imprimir_tabuleiro(tabuleiro, linhas, colunas);
+            imprimir_tabuleiro(tabuleiro2, linhas, colunas);
+            
             for( i = 0; i < 8; i++ ){
                 printf("peca %d: %d \n", i + 1, contador_pecas[i]);
             }
-            */
+            
 
             if (numpecas == 0){
                 break;            
@@ -117,10 +122,6 @@ void p_1(int tabuleiro[25][35], int numpecas, int linhas, int colunas)
     }
 }
 
-void p_2(int tabuleiro[25][35], int numpecas, int linhas, int colunas)
-{
-    
-}
 
 int id_global_aleatorio(void){
     int id_global = 0;
@@ -131,41 +132,41 @@ int id_global_aleatorio(void){
 
 //retrição 1
 
-void analisar_pecas(int tabuleiro[25][35], int tabuleiro2[25][35], int colunas, int linhas)
+void analisar_pecas(int tabuleiro[25][35], int tabuleiro2[25][35], int linhas, int colunas)
 {
     int i,j,n;
-    for ( i = 0; i < linhas; i++ ){
-        for ( j = 0; j < colunas; j++ )
+    for ( i = 0; i < linhas + 1 ; i++ ){
+        for ( j = 0; j < colunas + 1; j++ )
         {
 
             if ( tabuleiro[i][j] > 0 ){
                 if( i > 0 && j < colunas ){
                     if( tabuleiro[i - 1][j + 1] == 0 ){
-                        tabuleiro2[i - 1][j + 1 ] = -1;
+                        tabuleiro2[i - 1][j + 1] = 9;
                     }
                 }
 
                 if( i < linhas && j < colunas ){
                     if ( tabuleiro[i + 1][j + 1] == 0 ){
-                        tabuleiro2[i + 1][j + 1] = -1;
+                        tabuleiro2[i + 1][j + 1] = 9;
                     }
                 }
 
                 if( i < linhas && j > 0 ){
                     if(tabuleiro[ i + 1 ][j - 1] == 0){
-                        tabuleiro2[ i + 1 ][j - 1] = -1;
+                        tabuleiro2[ i + 1 ][j - 1] = 9;
                     }
                 }
 
                 if( i < linhas ){
                     if (tabuleiro[ i + 1 ][j] == 0){
-                        tabuleiro2[i + 1][j] = -1;
+                        tabuleiro2[i + 1][j] = 9;
                     }
                 }
 
                 if( j < colunas ){
                     if ( tabuleiro[i][j + 1] == 0 ){
-                        tabuleiro2[i][j + 1] = -1;
+                        tabuleiro2[i][j + 1] = 9;
                     }
                 }
             }
@@ -179,7 +180,7 @@ int verificar_pecas(int tabuleiro[25][35], int tabuleiro2[25][35], int poslinha,
     for (i = 0; i < 3; i++){
         for (j = 0; j < 3; j++){
             if (tabuleiro[i + poslinha][j + poscoluna] > 0){
-                if ( tabuleiro2[i + poslinha][j + poscoluna] == -1){
+                if ( tabuleiro2[i + poslinha][j + poscoluna] == 9){
                     return 1;
                 }
             }
