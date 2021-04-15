@@ -3,8 +3,8 @@ CFLAGS = -Wall -std=c11 -Wextra -g
 
 default: wargame
 
-wargame: main.o tabuleiro.o pecas.o bibliotecadepecas.o modo_p.o
-	$(CC) $(CFLAGS) -o wargame main.o tabuleiro.o pecas.o bibliotecadepecas.o modo_p.o
+wargame: main.o tabuleiro.o pecas.o bibliotecadepecas.o modo_p.o modo_d.o
+	$(CC) $(CFLAGS) -o wargame main.o tabuleiro.o pecas.o bibliotecadepecas.o modo_p.o modo_d.o
 
 main.o: main.c pecas.h tabuleiro.h bibliotecadepecas.h
 	$(CC) $(CFLAGS) -c main.c
@@ -21,5 +21,7 @@ bibliotecadepecas.o: bibliotecadepecas.c bibliotecadepecas.h headers.h
 modo_p.o: modo_p.c modo_p.h pecas.h bibliotecadepecas.h tabuleiro.h
 	$(CC) $(CFLAGS) -c modo_p.c
 
+modo_d.o: modo_d.c modo_d.h tabuleiro.h
+	$(CC) $(CFLAGS) -c modo_d.c	
 clean:
 	rm -rf *.o $(wargame) *~
