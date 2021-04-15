@@ -18,8 +18,10 @@ void imprimir_tabuleiro(int tabuleiro[25][35], int linhas, int colunas)
         for ( j = 0; j < colunas; j++ ){
             if(tabuleiro[i][j] == 0){
                 printf( "- " );
-            } else if (tabuleiro[i][j] != 0) {
+            } else if (tabuleiro[i][j] > 0 && tabuleiro[i][j] < 9) {
                 printf("%d ", tabuleiro[i][j]);
+            } else if ( tabuleiro[i][j] == 9 ){
+                printf("x ");
             }
         }
         printf("\n");

@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
             case '3':
                 sscanf(optarg, "%d", &n_pecas[2]);
                 if( n_pecas[2] > n_pecas[1] ){
-                    printf("-2\n");
+                    printf("-1\n");
                     exit(0);
                 }
                 n_pecas[8] += n_pecas[2];
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
             case '4':
                 sscanf(optarg, "%d", &n_pecas[3]);
                 if( n_pecas[3] > n_pecas[2] ){
-                    printf("-3\n");
+                    printf("-1\n");
                     exit(0);
                 }
                 n_pecas[8] += n_pecas[3];
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
             case '5':
                 sscanf(optarg, "%d", &n_pecas[4]);
                 if( n_pecas[4] > n_pecas[3] ){
-                    printf("-4\n");
+                    printf("-1\n");
                     exit(0);
                 }
                 n_pecas[8] += n_pecas[4];
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
             case '6':
                 sscanf(optarg, "%d", &n_pecas[5]);
                 if( n_pecas[5] > n_pecas[4] ){
-                    printf("-5\n");
+                    printf("-1\n");
                     exit(0);
                 }
                 n_pecas[8] += n_pecas[5];
@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
             case '7':
                 sscanf(optarg, "%d", &n_pecas[6]);
                 if( n_pecas[6] > n_pecas[5] ){
-                    printf("-6\n");
+                    printf("-1\n");
                     exit(0);
                 }
                 n_pecas[8] += n_pecas[6];
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
             case '8':
                 sscanf(optarg, "%d", &n_pecas[7]);
                 if( n_pecas[7] > n_pecas[6] ){
-                    printf("-7\n");
+                    printf("-1\n");
                     exit(0);
                 }
                 n_pecas[8] += n_pecas[7];

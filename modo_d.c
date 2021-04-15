@@ -12,11 +12,14 @@ int verificar_tab(int tabuleiro[25][35],int colunas,int linhas){
     }
     return 0;  
 }
+
 void disparo1(int tabuleiro3[25][35],int tabuleiro[25][35],int colunas,int linhas){
-    int randcol, randlin,flag, contador;
+    int randcol = 0,
+        randlin = 0;
+    int flag = 0;
         
-    randcol = (rand()%colunas) ;
-    randlin = (rand()%linhas) ;
+    randcol = (rand()%colunas);
+    randlin = (rand()%linhas);
     
     if(tabuleiro3[randcol][randlin] == 0){
             
@@ -26,8 +29,8 @@ void disparo1(int tabuleiro3[25][35],int tabuleiro[25][35],int colunas,int linha
         if (tabuleiro[randcol][randlin] > 0){
                 tabuleiro3[randcol][randlin] = tabuleiro[randcol][randlin];
                 tabuleiro[randcol][randlin] = 0;
-        }
-           
-        }                   
+        }       
+    }
+    flag = verificar_tab(tabuleiro, colunas, linhas);              
 }
 
