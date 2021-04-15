@@ -46,87 +46,83 @@ int return_id_global( int id_peca, int id_variante)
     return id_global;
 }
 
-void coloca_peca(int tabuleiro[25][35], int submat, int linhas, int colunas)
-{
-    //inicializa a variante e o tipo de peça
-    //int id_global = return_id_global(tipoPeca, variante);
-    int i = 0;
-    int pos = 0;
-    int contador, flag, id_global;
-    int tabuleiro2[25][35] = {0}; // tabuleiro que será usado para comparar
-    srand(time(NULL));
-    //Inicialização das coordenadas de posicionamento (poslinha, poscoluna)
-    int poscoluna = 0;
-    int poslinha = 0;
-    int n_tipo_peca = 0;
-    int contador_pecas[8] = {0};
 
-    int numpecas = submat; //restrição nº2
-    printf("nº de peças %d\n", numpecas);
-
-    for ( pos = 0; pos < submat; pos++)
+int variante_max(int id_tipo){
+    int varianteMax = 0;
+    switch (id_tipo)
     {
-        printf("pos%dx%d\n", poslinha, poscoluna);
-        flag = 0; //quando flag = 0 pode-se c8olocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz
-        id_global = id_global_aleatorio();
-        contador = 0; //irá contar o número de tentativas a colocar uma peça na matriz
+    case 1:
+        varianteMax = 9;
+        break;
 
-        //printf("id peça %d\n", tipoPeca);
-        //printf( "variante: %d\n", variante);
-        if (id_global != 0)
-        {
-            numpecas--;
-            n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
-            flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
-            //printf("flag = %d\n", flag);
+    case 2:
+        varianteMax = 12;
+        break;
 
-            while( flag == 1 ){
-                apagar_submat(tabuleiro, poslinha, poscoluna);
-                id_global = id_global_aleatorio();
-                n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
-                flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
-                //printf("flag = %d\n", flag);
-                //printf("contador= %d\n", contador);
-                contador++;
-                if(contador >= 3){
-                    apagar_submat(tabuleiro, poslinha, poscoluna);
-                    id_global = 5;
-                    n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
-                    flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
-                }
-            }
+    case 3:
+        varianteMax = 6;
+        break;
 
-            analisar_pecas(tabuleiro, tabuleiro2, linhas, colunas);
-            contador_pecas[n_tipo_peca - 1]++;
-            imprimir_tabuleiro(tabuleiro, linhas, colunas);
-            imprimir_tabuleiro(tabuleiro2, linhas, colunas);
-            
-            for( i = 0; i < 8; i++ ){
-                printf("peca %d: %d \n", i + 1, contador_pecas[i]);
-            }
-            
+    case 4:
+    case 5:
+    case 6:
+        varianteMax = 4;
+        break;
 
-            if (numpecas == 0){
-                break;            
-            }
-        } else if ( id_global == 0 ){
-            pos++;
-        }
+    case 7:
+        varianteMax = 2;
+        break;
 
-        poscoluna += 3;
-        if(poscoluna >= colunas - 1){
-            poscoluna = 0;
-            poslinha += 3;
-
-        }
+    case 8:
+        varianteMax = 1;
+        break;
+    
+    default:
+        break;
     }
+    return varianteMax;
 }
 
+int variante_aleatoria(int id_tipo){
+    int variante = 0;
+    switch (id_tipo)
+    {
+    case 1:
+        variante = (rand()%9) + 1;
+        break;
+
+    case 2:
+        variante = (rand()%12) + 1;
+        break;
+
+    case 3:
+        variante = (rand()%6) + 1;
+        break;
+
+    case 4:
+    case 5:
+    case 6:
+        variante = (rand()%4) + 1;
+        break;
+
+    case 7:
+        variante = (rand()%2) + 1;
+        break;
+
+    case 8:
+        variante = 1;
+        break;
+    
+    default:
+        break;
+    }
+    return variante;
+}
 
 int id_global_aleatorio(void){
-    int id_global = 0;
-    id_global = rand()%43;
-    return id_global;
+int id_global = 0;
+id_global = rand()%43;
+return id_global;
 }
 
 
@@ -142,31 +138,31 @@ void analisar_pecas(int tabuleiro[25][35], int tabuleiro2[25][35], int linhas, i
             if ( tabuleiro[i][j] > 0 ){
                 if( i > 0 && j < colunas ){
                     if( tabuleiro[i - 1][j + 1] == 0 ){
-                        tabuleiro2[i - 1][j + 1] = 9;
+                        tabuleiro2[i - 1][j + 1] = -1;
                     }
                 }
 
                 if( i < linhas && j < colunas ){
                     if ( tabuleiro[i + 1][j + 1] == 0 ){
-                        tabuleiro2[i + 1][j + 1] = 9;
+                        tabuleiro2[i + 1][j + 1] = -1;
                     }
                 }
 
                 if( i < linhas && j > 0 ){
                     if(tabuleiro[ i + 1 ][j - 1] == 0){
-                        tabuleiro2[ i + 1 ][j - 1] = 9;
+                        tabuleiro2[ i + 1 ][j - 1] = -1;
                     }
                 }
 
                 if( i < linhas ){
                     if (tabuleiro[ i + 1 ][j] == 0){
-                        tabuleiro2[i + 1][j] = 9;
+                        tabuleiro2[i + 1][j] = -1;
                     }
                 }
 
                 if( j < colunas ){
                     if ( tabuleiro[i][j + 1] == 0 ){
-                        tabuleiro2[i][j + 1] = 9;
+                        tabuleiro2[i][j + 1] = -1;
                     }
                 }
             }
@@ -180,10 +176,11 @@ int verificar_pecas(int tabuleiro[25][35], int tabuleiro2[25][35], int poslinha,
     for (i = 0; i < 3; i++){
         for (j = 0; j < 3; j++){
             if (tabuleiro[i + poslinha][j + poscoluna] > 0){
-                if ( tabuleiro2[i + poslinha][j + poscoluna] == 9){
+                if ( tabuleiro2[i + poslinha][j + poscoluna] == -1){
                     return 1;
                 }
             }
         }
     }
+    return 0;
 }

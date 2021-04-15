@@ -42,8 +42,8 @@ void apagar_tabuleiro( int tabuleiro[25][35], int linhas, int colunas )
         for ( j = 0; j < colunas; j++ ){
             tabuleiro[i][j] = 0;
             }
-        }
-        printf("\n");
+    }
+    printf("\n");
 }
 
 void apagar_submat(int tabuleiro[25][35], int poslinha, int poscoluna)
