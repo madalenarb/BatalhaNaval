@@ -226,14 +226,13 @@ int main(int argc, char *argv[])
     
     int tabuleiro3[25][35];
     apagar_tabuleiro(tabuleiro3, linhas, colunas);
-
-    disparo1(tabuleiro3,tabuleiro,colunas, linhas);
-    disparo1(tabuleiro3,tabuleiro,colunas, linhas);
-    disparo1(tabuleiro3,tabuleiro,colunas, linhas);
-    disparo1(tabuleiro3,tabuleiro,colunas, linhas);
+   
+    
+    disparo3( tabuleiro,tabuleiro3);
 
     imprimir_tabuleiro(  tabuleiro3, linhas, colunas );
     imprimir_tabuleiro(  tabuleiro, linhas, colunas );
+    
     
     
     
