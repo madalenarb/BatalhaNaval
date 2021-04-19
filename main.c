@@ -26,7 +26,7 @@ void instrucoes(char *programa)
 
 int main(int argc, char *argv[])
 {
-    int i = 0,
+    int i = 0, j = 0,
         linhas = DEFAULT_LINHAS,
         colunas = DEFAULT_COLUNAS,
         modoJogo = DEFAULT_MODO_JOGO,
@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     int n_pecas[9] = {0};
     int flagvec[9] = {0}; // vetor de flag que indica que tipo de pecas já foram testadas (p_2)
     int tabuleiro[25][35] = {0};
+    int tabuleiro3[25][35] = {0};
     char opt = 'h'; // opção para getopt()
     srand(time(NULL));
 
@@ -185,6 +186,8 @@ int main(int argc, char *argv[])
     int flag = 0;
     int contador_r1 = 0;
     sub_mat = submat(linhas,colunas); //numero de matrizes 3x3 num tabuleiro
+    int x;
+    char y;
     
 
     if ( modoJogo == 0 ){
@@ -222,20 +225,52 @@ int main(int argc, char *argv[])
         }
     }
    
-    
-    
-    int tabuleiro3[25][35];
-    apagar_tabuleiro(tabuleiro3, linhas, colunas);
-   
-    
-    disparo3( tabuleiro,tabuleiro3);
+    if ( modoJogo == 1 ){
+        if(modoPosicionamento == 1){
+            p_1(tabuleiro, sub_mat, linhas, colunas);
+            imprimir_tabuleiro(tabuleiro, linhas, colunas);
+        }
+        if(modoPosicionamento == 2){
+            if( n_pecas[8] > sub_mat / 2 ){
+                printf("\nO nº total de peças tem de ser menor ou igual à metade do número de metrizes 3x3.\n\n");
+                exit(0);
+            }
 
-    imprimir_tabuleiro(  tabuleiro3, linhas, colunas );
-    imprimir_tabuleiro(  tabuleiro, linhas, colunas );
-    
-    
-    
-    
+            flag = p_2(tabuleiro, n_pecas, flagvec, sub_mat, linhas, colunas);
+
+            while(flag == -1){
+                apagar_tabuleiro(tabuleiro, linhas, colunas);
+                flag = p_2(tabuleiro, n_pecas, flagvec, sub_mat, linhas, colunas);
+                contador_r1++;
+            }
+            imprimir_tabuleiro(tabuleiro, linhas, colunas);
+
+        }
+        flag = 1;
+
+        for ( i = 0; i < linhas; i++ ){
+            for ( j = 0; j < colunas; j++ ){
+                tabuleiro3[i][j] = tabuleiro[i][j];
+                }
+        }
+
+
+        while( flag == 1 ){
+            scanf("%c%d", &y,&x); // x = coluna
+            atoi(y);
+            y -= 65; // y = coluna
+
+            if(tabuleiro[linhas - x][y] == 0){
+                printf("-\n");
+            }
+
+            if(tabuleiro[linhas - x][y] != 0){
+                printf("%d\n", tabuleiro[x][y]);
+            }
+            tabuleiro3[linhas - x][y] = 0;
+            flag = verificar_tab(tabuleiro3, colunas, linhas);
+        }
+    }
     
     
 

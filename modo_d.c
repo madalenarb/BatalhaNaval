@@ -2,8 +2,8 @@
 
 int verificar_tab(int tabuleiro[25][35],int colunas,int linhas){
     int i,j;
-    for (i=0; i<colunas; i++){
-        for (j=0; j<linhas; j++){
+    for (i=0; i < colunas; i++){
+        for (j=0; j < linhas; j++){
              if (tabuleiro[i][j] != 0){
                 return 1;
             }
@@ -74,6 +74,7 @@ void disparo2(int tabuleiro[25][35],int tabuleiro3[25][35]){
              
     }
 }
+
 void disparo3(int tabuleiro[25][35],int tabuleiro3[25][35]){
     int flag,j,k;
     int i = 0;
@@ -84,13 +85,13 @@ void disparo3(int tabuleiro[25][35],int tabuleiro3[25][35]){
     int poslinha = 0;
     flag=1;
 
-    while(flag == 1 && i<9){
+    while(flag == 1 && i < 9 ){
         if (tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]] == 0 ){
-            tabuleiro3[poslinha+seqlin[i]][poscoluna+seqcol[i]]=9;
+            tabuleiro3[poslinha+seqlin[i]][poscoluna+seqcol[i]] = 9;
         }
         if(tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]] !=0 && tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]] !=9 ){
             tabuleiro3[poslinha+seqlin[i]][poscoluna+seqcol[i]]=tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]];
-            tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]]=0;
+            tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]] = 0;
             for(j=-1; j<2; j++){
                 if(tabuleiro[poslinha+seqlin[i]+j][poscoluna+seqcol[i]+1] == 0){
                 tabuleiro[poslinha+seqlin[i]+j][poscoluna+seqcol[i]+1] = 9;
@@ -103,9 +104,18 @@ void disparo3(int tabuleiro[25][35],int tabuleiro3[25][35]){
                 tabuleiro[poslinha+seqlin[i]+1][poscoluna+seqcol[i]-1] = 9;
             }
             
-            flag = verificar_matriz( tabuleiro); 
+            flag = verificar_matriz( tabuleiro);
         }
         i++;
              
     }
+}
+
+void inserir_disparo(int tabuleiro[25][35], int tabuleiro3[25][35], int linha, int coluna){
+        if(tabuleiro[linha][coluna] == 0){
+            printf("-\n");
+        }
+        if(tabuleiro[linha][coluna] != 0){
+            printf("%d\n", tabuleiro[linha][coluna]);
+        }
 }

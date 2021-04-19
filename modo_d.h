@@ -7,3 +7,4 @@ void disparo1(int tabuleiro3[25][35],int tabuleiro[25][35],int colunas,int linha
 int verificar_matriz(int tabuleiro[25][35]);
 void disparo2(int tabuleiro[25][35],int tabuleiro3[25][35]);
 void disparo3(int tabuleiro[25][35],int tabuleiro3[25][35]);
+void inserir_disparo(int tabuleiro[25][35], int tabuleiro3[25][35], int linha, int coluna);
