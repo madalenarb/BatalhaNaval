@@ -1,4 +1,3 @@
-#include "headers.h"
 #include "tabuleiro.h"
 
 // retorna o número de matrizes 3x3

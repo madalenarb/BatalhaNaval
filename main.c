@@ -1,6 +1,8 @@
 #include "pecas.h"
 #include "tabuleiro.h"
 #include "bibliotecadepecas.h"
+#include "modo_d.h"
+#include "modo_p.h"
 
 //definir valores default 
 #define DEFAULT_LINHAS 9
@@ -32,10 +34,13 @@ int main(int argc, char *argv[])
         modoJogo = DEFAULT_MODO_JOGO,
         modoPosicionamento = DEFAULT_MODO_POSICIONAMENTO,
         modoDisparo = DEFAULT_MODO_DISPARO;
+    int disparosMin = 0;  //nºs de disparos mínimos necessários para vencer
+    int id_peca_2; // identifica o id peca da peca indicada pelo utilizador no modo de jogo 2
     int n_pecas[9] = {0};
     int flagvec[9] = {0}; // vetor de flag que indica que tipo de pecas já foram testadas (p_2)
     int tabuleiro[25][35] = {0};
-    int tabuleiro3[25][35] = {0};
+    int tabuleiro2[25][35] = {0}; // tabuleiro onde se registão os disparos para confirmar que se chegou ao fim
+    int tabuleiro3[25][35] = {0}; // tabuleiro no qual será registado as peças emncontradas pelo computador no modo de jogo 2
     char opt = 'h'; // opção para getopt()
     srand(time(NULL));
 
@@ -98,6 +103,7 @@ int main(int argc, char *argv[])
                     printf("-1\n");
                     exit(0);
                 }
+
                 n_pecas[8] += n_pecas[1];
                 flagvec[2] = 1;
                 break;
@@ -108,6 +114,7 @@ int main(int argc, char *argv[])
                     printf("-1\n");
                     exit(0);
                 }
+
                 n_pecas[8] += n_pecas[2];
                 flagvec[3] = 1;
                 break;
@@ -118,6 +125,7 @@ int main(int argc, char *argv[])
                     printf("-1\n");
                     exit(0);
                 }
+
                 n_pecas[8] += n_pecas[3];
                 flagvec[3] = 1;
                 break;
@@ -128,6 +136,7 @@ int main(int argc, char *argv[])
                     printf("-1\n");
                     exit(0);
                 }
+
                 n_pecas[8] += n_pecas[4];
                 flagvec[5] = 1;
                 break;
@@ -148,6 +157,7 @@ int main(int argc, char *argv[])
                     printf("-1\n");
                     exit(0);
                 }
+
                 n_pecas[8] += n_pecas[6];
                 flagvec[7] = 1;
                 break;
@@ -158,6 +168,7 @@ int main(int argc, char *argv[])
                     printf("-1\n");
                     exit(0);
                 }
+
                 n_pecas[8] += n_pecas[7];
                 flagvec[8] = 1;
                 break;
@@ -183,7 +194,10 @@ int main(int argc, char *argv[])
     testar a impressão de peças aleatorias:
     */
     int sub_mat = 0;
-    int flag = 0;
+    int flag = 0,
+    flag2 = 0,
+    flag3 = 1,
+    flag4 = 1;
     int contador_r1 = 0;
     sub_mat = submat(linhas,colunas); //numero de matrizes 3x3 num tabuleiro
     int x;
@@ -236,43 +250,50 @@ int main(int argc, char *argv[])
                 exit(0);
             }
 
-            flag = p_2(tabuleiro, n_pecas, flagvec, sub_mat, linhas, colunas);
+            flag2 = p_2(tabuleiro, n_pecas, flagvec, sub_mat, linhas, colunas);
 
-            while(flag == -1){
+            while(flag2 == -1){
                 apagar_tabuleiro(tabuleiro, linhas, colunas);
-                flag = p_2(tabuleiro, n_pecas, flagvec, sub_mat, linhas, colunas);
+                flag2 = p_2(tabuleiro, n_pecas, flagvec, sub_mat, linhas, colunas);
                 contador_r1++;
             }
             imprimir_tabuleiro(tabuleiro, linhas, colunas);
 
         }
-        flag = 1;
 
         for ( i = 0; i < linhas; i++ ){
             for ( j = 0; j < colunas; j++ ){
-                tabuleiro3[i][j] = tabuleiro[i][j];
+                tabuleiro2[i][j] = tabuleiro[i][j];
                 }
         }
 
 
-        while( flag == 1 ){
-            scanf("%c%d", &y,&x); // x = coluna
-            atoi(y);
+        while( flag3 == 1 ){
+            y = 0;
+            x = 0;
+            scanf(" %c %d", &y,&x); // x = nº de linhas total - linha
             y -= 65; // y = coluna
+            //printf("%d %d\n", linhas - x + 1, y);
 
             if(tabuleiro[linhas - x][y] == 0){
                 printf("-\n");
+            } else if (tabuleiro[ linhas - x][y] != 0){
+                printf("%d\n", tabuleiro[linhas - x][y]);
             }
-
-            if(tabuleiro[linhas - x][y] != 0){
-                printf("%d\n", tabuleiro[x][y]);
-            }
-            tabuleiro3[linhas - x][y] = 0;
-            flag = verificar_tab(tabuleiro3, colunas, linhas);
+            tabuleiro2[linhas - x][y] = 0;
+            flag3 = verificar_tab(tabuleiro2, linhas, colunas);
+            //imprimir_tabuleiro(tabuleiro2, linhas, colunas);
         }
     }
     
-    
+    if( modoJogo == 2 ){
+        for(i = 0; i < 8; i++){
+            disparosMin += (i + 1) * n_pecas[i];
+        }
+        if(modoDisparo == 1){
+                disparo_1(tabuleiro, tabuleiro2, tabuleiro3, disparosMin, linhas, colunas);
+        }
+    }
 
 
     //Testa todas as peças

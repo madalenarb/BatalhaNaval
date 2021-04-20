@@ -73,7 +73,6 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
         if(poscoluna >= colunas - 1){
             poscoluna = 0;
             poslinha += 3;
-
         }
     }
 }
