@@ -33,14 +33,13 @@ void disparo_1(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin,in
         if(tabuleiro3[randlin][randcol] == 0 ){
                 printf("\n%c%c\n",charndlin, charndcol);
                 
-                do{
-                    id_peca = getchar();
-                } while (id_peca != '\n' && id_peca !=EOF);
+                id_peca = getchar();
+                getchar();
                 
                 int id_pecanum = id_peca - '0';
                 
                 //printf("%d\n",id_pecanum);
-                printf("%d\n",id_peca);
+                //printf("%d\n",id_peca);
                 if(id_peca == '-'){
                     tabuleiro3[randlin][randcol] = -2;
                     printf("%c",'-');
@@ -49,9 +48,9 @@ void disparo_1(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin,in
                     tabuleiro3[randlin][randcol] = id_pecanum;
                     printf("%d",id_pecanum);
                 } 
-                }
+        }    
                      
-        }       
+    }       
         flag = verificar_tab(tabuleiro, linhas, colunas);   
       
 
