@@ -39,8 +39,7 @@ int main(int argc, char *argv[])
     int n_pecas[9] = {0};
     int flagvec[9] = {0}; // vetor de flag que indica que tipo de pecas já foram testadas (p_2)
     int tabuleiro[25][35] = {0};
-    int tabuleiro2[25][35] = {0}; // tabuleiro onde se registão os disparos para confirmar que se chegou ao fim
-    int tabuleiro3[25][35] = {0}; // tabuleiro no qual será registado as peças emncontradas pelo computador no modo de jogo 2
+    int tabuleiro3[25][35] = {0}; // tabuleiro no qual será registado as peças encontradas pelo computador no modo de jogo 2
     char opt = 'h'; // opção para getopt()
     srand(time(NULL));
 
@@ -263,7 +262,7 @@ int main(int argc, char *argv[])
 
         for ( i = 0; i < linhas; i++ ){
             for ( j = 0; j < colunas; j++ ){
-                tabuleiro2[i][j] = tabuleiro[i][j];
+                tabuleiro3[i][j] = tabuleiro[i][j];
                 }
         }
 
@@ -280,8 +279,8 @@ int main(int argc, char *argv[])
             } else if (tabuleiro[ linhas - x][y] != 0){
                 printf("%d\n", tabuleiro[linhas - x][y]);
             }
-            tabuleiro2[linhas - x][y] = 0;
-            flag3 = verificar_tab(tabuleiro2, linhas, colunas);
+            tabuleiro3[linhas - x][y] = 0;
+            flag3 = verificar_tab(tabuleiro3, linhas, colunas);
             //imprimir_tabuleiro(tabuleiro2, linhas, colunas);
         }
     }
@@ -291,9 +290,12 @@ int main(int argc, char *argv[])
             disparosMin += (i + 1) * n_pecas[i];
         }
         if(modoDisparo == 1){
-                disparo_1(tabuleiro, tabuleiro2, tabuleiro3, disparosMin, linhas, colunas);
+                disparo_1(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
         }
     }
+    
+    
+    
 
 
     //Testa todas as peças

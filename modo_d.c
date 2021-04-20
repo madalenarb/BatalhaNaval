@@ -13,28 +13,32 @@ int verificar_tab(int tabuleiro[25][35], int linhas, int colunas){
     return 0;  
 }
 
-void disparo_1(int tabuleiro[25][35], int tabuleiro2[25][35], int tabuleiro3[25][35], int disparosMin,int colunas, int linhas){
-    int randcol = 0,
-        randlin = 0;
+void disparo_1(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin,int linhas, int colunas){
+    int randcol = 0;
+    int randlin = 0;
     int flag = 0;
     char id_peca; 
         
-    randcol = (rand()%colunas);
-    randlin = (rand()%linhas);
+    apagar_tabuleiro(tabuleiro3, linhas, colunas);
     
-    while( disparosMin > 0 && flag == 1 ){
+    while( disparosMin > 0 || flag == 1 ){
+        randcol = (rand()%colunas);
+        randlin = (rand()%linhas);
+        
+        printf("\n%d", tabuleiro3[randlin][randcol]);
         if(tabuleiro3[randlin][randcol] == 0){
-            if (tabuleiro[randlin][randcol] > 0){
-                    tabuleiro3[randlin][randcol] = tabuleiro[randlin][randcol];
-                    tabuleiro[randlin][randcol] = 0;
-            }       
-        }
-    scanf("%c", id_peca);
-    if(id_peca == '-'){
-        tabuleiro3[randlin][randcol] = 0;
-    }
-    printf("%c\n",id_peca);
-    if(id_peca > 0)
+                tabuleiro3[randlin][randcol] = -2;
+                scanf("%c", id_peca);
+                int id_pecanum = id_peca - '0';
+                if(id_peca == '-'){
+                    tabuleiro3[randlin][randcol] = -2;
+                 }
+                else if(id_pecanum > 0){
+                    tabuleiro3[randlin][randcol] = id_pecanum;
+                }
+                printf("%c\n",id_peca);
+        }       
+    
     flag = verificar_tab(tabuleiro, linhas, colunas);   
     }   
 
@@ -56,7 +60,7 @@ int verificar_matriz(int tabuleiro[25][35]){
 
 
 
-void disparo_2(int tabuleiro[25][35], int tabuleiro2[25][35], int tabuleiro3[25][35]){
+void disparo_2(int tabuleiro[25][35], int tabuleiro3[25][35]){
     int flag;
     int i = 0;
     //estes dois arrays servem para fazer a sequencia pretendida de disparo dentro da matriz 3x3
@@ -81,7 +85,7 @@ void disparo_2(int tabuleiro[25][35], int tabuleiro2[25][35], int tabuleiro3[25]
     }
 }
 
-void disparo_3(int tabuleiro[25][35],int tabuleiro2[25][35], int tabuleiro3[25][35]){
+void disparo_3(int tabuleiro[25][35], int tabuleiro3[25][35]){
     int flag,j,k;
     int i = 0;
     //estes dois arrays servem para fazer a sequencia pretendida de disparo dentro da matriz 3x3

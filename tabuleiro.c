@@ -15,7 +15,7 @@ void imprimir_tabuleiro(int tabuleiro[25][35], int linhas, int colunas)
     for ( i = 0; i < linhas; i++ ){
         printf("%2d|| ", linhas - i );
         for ( j = 0; j < colunas; j++ ){
-            if(tabuleiro[i][j] == 0){
+            if(tabuleiro[i][j] == 0 || tabuleiro[i][j] == -2){
                 printf( "- " );
             } else if (tabuleiro[i][j] > 0 && tabuleiro[i][j] < 9) {
                 printf("%d ", tabuleiro[i][j]);
