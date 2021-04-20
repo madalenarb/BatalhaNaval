@@ -18,29 +18,42 @@ void disparo_1(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin,in
     int randlin = 0;
     int flag = 0;
     char id_peca; 
-        
+    char charndlin ;
+    char charndcol;   
     apagar_tabuleiro(tabuleiro3, linhas, colunas);
+    imprimir_tabuleiro(tabuleiro3, linhas, colunas);
+    
     
     while( disparosMin > 0 || flag == 1 ){
         randcol = (rand()%colunas);
         randlin = (rand()%linhas);
+        charndlin = (linhas-randlin)+ '0';
+        charndcol = randcol + 'A';
         
-        printf("\n%d", tabuleiro3[randlin][randcol]);
         if(tabuleiro3[randlin][randcol] == 0 ){
-                tabuleiro3[randlin][randcol] = -2;
-                scanf("%c", id_peca);
+                printf("\n%c%c\n",charndlin, charndcol);
+                
+                do{
+                    id_peca = getchar();
+                } while (id_peca != '\n' && id_peca !=EOF);
+                
                 int id_pecanum = id_peca - '0';
+                
+                //printf("%d\n",id_pecanum);
+                printf("%d\n",id_peca);
                 if(id_peca == '-'){
                     tabuleiro3[randlin][randcol] = -2;
-                 }
+                    printf("%c",'-');
+                }
                 else if(id_pecanum > 0){
                     tabuleiro3[randlin][randcol] = id_pecanum;
+                    printf("%d",id_pecanum);
+                } 
                 }
-                printf("%c\n",id_peca);
+                     
         }       
-    
-    flag = verificar_tab(tabuleiro, linhas, colunas);   
-    }   
+        flag = verificar_tab(tabuleiro, linhas, colunas);   
+      
 
 }
 
