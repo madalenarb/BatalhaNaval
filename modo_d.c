@@ -26,7 +26,7 @@ void disparo_1(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin,in
         randlin = (rand()%linhas);
         
         printf("\n%d", tabuleiro3[randlin][randcol]);
-        if(tabuleiro3[randlin][randcol] == 0){
+        if(tabuleiro3[randlin][randcol] == 0 ){
                 tabuleiro3[randlin][randcol] = -2;
                 scanf("%c", id_peca);
                 int id_pecanum = id_peca - '0';
