@@ -36,11 +36,11 @@ int main(int argc, char *argv[])
         modoDisparo = DEFAULT_MODO_DISPARO;
     int disparosMin = 0,
         disparosMax = 0;  //nºs de disparos mínimos necessários para vencer
-    int id_peca_2; // identifica o id peca da peca indicada pelo utilizador no modo de jogo 2
     int n_pecas[9] = {0};
     int flagvec[9] = {0}; // vetor de flag que indica que tipo de pecas já foram testadas (p_2)
     int tabuleiro[25][35] = {0};
     int tabuleiro3[25][35] = {0}; // tabuleiro no qual será registado as peças encontradas pelo computador no modo de jogo 2
+    int n_pecas_contador[0] = {0};
     char opt = 'h'; // opção para getopt()
     srand(time(NULL));
 
@@ -196,23 +196,26 @@ int main(int argc, char *argv[])
     int sub_mat = 0;
     int flag = 0,
     flag2 = 0,
-    flag3 = 1,
-    flag4 = 1;
+    flag3 = 1;
     int contador_r1 = 0;
     sub_mat = submat(linhas,colunas); //numero de matrizes 3x3 num tabuleiro
-    int x;
-    char y;
+    int x = 0;
+    char y_char;
+    int y = 0;
     
+    for( i = 0; i < 9; i++){
+    n_pecas_contador[i + 1] = n_pecas[i];
+    }
 
     if ( modoJogo == 0 ){
         if ( modoPosicionamento == 1 ){
             //printf("linhas: %d\n colunas: %d\n", linhas, colunas);
             p_1(tabuleiro, sub_mat, linhas, colunas);
-            imprimir_tabuleiro(tabuleiro, linhas, colunas);
             //printf("\n submat = %d\n\n", sub_mat);
             
             //printf("%dx%d", linhas, colunas);
         }
+
         if(modoPosicionamento == 2){
             //restrição 4
 
@@ -235,14 +238,19 @@ int main(int argc, char *argv[])
                     exit(0);
                 }*/
             }
-            imprimir_tabuleiro(tabuleiro, linhas, colunas);
         }
+        printf("\n");
+        imprimir_tabuleiro(tabuleiro, linhas, colunas);
     }
    
     if ( modoJogo == 1 ){
+        printf("*=================================\n");
+        printf("* Modo de Jogo 1\n");
+        printf("* Insira as coordenadas de Disparo\n");
+        printf("*=================================\n");
         if(modoPosicionamento == 1){
             p_1(tabuleiro, sub_mat, linhas, colunas);
-            imprimir_tabuleiro(tabuleiro, linhas, colunas);
+            printf("\n");
         }
         if(modoPosicionamento == 2){
             if( n_pecas[8] > sub_mat / 2 ){
@@ -257,8 +265,7 @@ int main(int argc, char *argv[])
                 flag2 = p_2(tabuleiro, n_pecas, flagvec, sub_mat, linhas, colunas);
                 contador_r1++;
             }
-            imprimir_tabuleiro(tabuleiro, linhas, colunas);
-
+            printf("\n");
         }
 
         for ( i = 0; i < linhas; i++ ){
@@ -271,8 +278,8 @@ int main(int argc, char *argv[])
         while( flag3 == 1 ){
             y = 0;
             x = 0;
-            scanf(" %c %d", &y,&x); // x = nº de linhas total - linha
-            y -= 65; // y = coluna
+            scanf(" %c %d", &y_char,&x); // x = nº de linhas total - linha
+            y = y_char - 'A'; // y = coluna
             //printf("%d %d\n", linhas - x + 1, y);
 
             if(tabuleiro[linhas - x][y] == 0){
@@ -283,10 +290,18 @@ int main(int argc, char *argv[])
             tabuleiro3[linhas - x][y] = 0;
             flag3 = verificar_tab(tabuleiro3, linhas, colunas);
             //imprimir_tabuleiro(tabuleiro2, linhas, colunas);
+            //imprimir_tabuleiro(tabuleiro, linhas, colunas);
         }
+        imprimir_tabuleiro(tabuleiro, linhas, colunas);
     }
     
     if( modoJogo == 2 ){
+        printf("*=================================\n");
+        printf("* Modo de Jogo 2\n");
+        printf("* Crie um tabuleiro com as características indicadas\n");
+        printf("* Responda aos disparos do programa\n");
+        printf("*=================================\n");
+        printf("%dx%d\n", linhas, colunas);
         for(i = 0; i < 8; i++){
             disparosMin += (i + 1) * n_pecas[i];
         }
@@ -294,15 +309,30 @@ int main(int argc, char *argv[])
         disparosMax = linhas * colunas;
 
         if(modoDisparo == 1){
-            disparo_1(tabuleiro, tabuleiro3, disparosMin, disparosMax, linhas, colunas);
-            imprimir_tabuleiro(tabuleiro3, linhas, colunas);
+            if(disparosMin > 0){
+                disparo_1(tabuleiro3, disparosMin, disparosMax, linhas, colunas);
+            }
         }
         if(modoDisparo == 2){
-            disparo_2(tabuleiro, tabuleiro3, linhas, colunas, sub_mat);
+            if(disparosMin > 0){
+                disparo_2(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
+            }
         }
-        if(modoDisparo == 3){
-                disparo_3(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
+        if(modoDisparo == 2){
+            if(disparosMin > 0){
+                disparo_2(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
+            }
         }
+
+        printf("%dx%d ", linhas, colunas);
+        for(i = 8; i >= 0; i--){
+            while(n_pecas_contador[i] > 0){
+                printf("%d ", i );
+                n_pecas_contador[i]--;
+            }
+        }
+        printf("\n");
+        imprimir_tabuleiro(tabuleiro3, linhas, colunas);
     }
     
     
