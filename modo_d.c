@@ -12,11 +12,10 @@ int verificar_tab(int tabuleiro[25][35], int linhas, int colunas){
     }
     return 0;  
 }
-//funçao de disparo1, o computador dispara aleatoriamente até atinjir em todas as peças
-void disparo_1(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, int disparosMax, int linhas, int colunas){
+
+void disparo_1(int tabuleiro3[25][35], int disparosMin, int disparosMax, int linhas, int colunas){
     int randCol = 0;
     int randLin = 0;
-    int flag = 0;
     int n_disparos = 0;
     char id_peca; 
     char charRandLin;
@@ -28,7 +27,7 @@ void disparo_1(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, i
     while( disparosMin > 0 && n_disparos < disparosMax ){
         randCol = (rand()%colunas);
         randLin = (rand()%linhas);
-        charRandLin = (linhas-randLin)+ '0';
+        charRandLin = (linhas - randLin)+ '0';
         charRandCol = randCol + 'A';
         
         if(tabuleiro3[randLin][randCol] == 0 ){
@@ -55,11 +54,11 @@ int resposta(char charCol, char charLin)
 {
     int id_peca = 0;
     printf("%c%c\n", charCol, charLin);
-    int tipo_peca_num = 0;
+    int id_peca_num = 0;
     id_peca = getchar();
     getchar();
     
-    int id_peca_num = id_peca - '0';
+    id_peca_num = id_peca - '0';
     
     if(id_peca == '-'){
         id_peca_num = 0;
@@ -120,23 +119,23 @@ void disparo_2(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, i
                 flag2 = 1;
                 i = 0;
                 while(flag2 == 1 && i < 9){
-                    if (tabuleiro3[a+seqlin[i]][b + seqcol[i]] == 0 ){
+                    if (tabuleiro3[a + seqlin[i]][b + seqcol[i]] == 0 ){
                         //printf("linha é:%d\n",a);
                         //printf("coluna é:%d\n",b);
                         linha = (linhas - (a + seqlin[i])) + '0';
                         coluna = (b + seqcol[i]) + 'A'; 
                         id_peca = resposta(coluna, linha);
                         if(id_peca == 0){
-                        tabuleiro3[a + seqlin[i]][b + seqcol[i]] = -2;
+                            tabuleiro3[a + seqlin[i]][b + seqcol[i]] = -2;
                         }
                         else if(id_peca > 0){
                         tabuleiro3[a + seqlin[i]][b + seqcol[i]] = id_peca;
-                        disparosMin --;
+                        disparosMin--;
                         if(disparosMin == 0){
-                            return 0;
+                            exit(0);
                         }
                         printf("disparosminimos:%d\n",disparosMin);
-                        flag2 =verificar_mat(tabuleiro3,id_peca,a,b);
+                        flag2 = verificar_mat(tabuleiro3,id_peca,a,b);
                         //printf("%d",id_pecanum);
                         }          
                         //printf("a flag2 é =%d\n",flag2);           
@@ -188,7 +187,7 @@ void disparo_3(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, i
                             return 0;
                         }
                         printf("disparosminimos:%d\n",disparosMin);
-                        flag2 =verificar_mat(tabuleiro3,id_peca,a,b);
+                        flag2 = verificar_mat(tabuleiro3, id_peca, a, b);
                         //printf("%d",id_pecanum);
                         }          
                         //printf("a flag2 é =%d\n",flag2);           
@@ -207,15 +206,15 @@ void disparo_3(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, i
 /*esta funçao serve para aplicar a restriçao no disparo 3 (o tabuleiro1 fica a 9,
  indicando ao computador que nao pode disparar nestas posiçoes)*/
 void restricaodisparo3(int tabuleiro3[25][35], int tabuleiro[25][35], int a, int b){
-    int i,k,d;
-    for(i=0; i<3; i++){
-        for(k=0; k<3; k++){
-            if(tabuleiro3[a+i][b+k] > 0){
+    int i, k, d;
+    for(i = 0; i < 3; i++){
+        for(k = 0; k < 3; k++){
+            if(tabuleiro3[a + i][b + k] > 0){
                 for(d = -1; d < 2; d++){
-                    tabuleiro[a+i+d][b+k+1] = 9;
+                    tabuleiro[a + i + d][b + k + 1] = 9;
                 }
-                tabuleiro[a+i+1][b+k] = 9;
-                tabuleiro[a+i+1][b+k-1] = 9;
+                tabuleiro[a + i + 1][b + k] = 9;
+                tabuleiro[a + i + 1][b + k-1] = 9;
             }
         }
     }
