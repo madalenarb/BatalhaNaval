@@ -3,15 +3,15 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
 {
     //inicializa a variante e o tipo de peça
     //int id_global = return_id_global(tipoPeca, variante);
-    int i = 0;
     int pos = 0;
     int contador, flag, id_global;
     int tabuleiro2[25][35] = {0}; // tabuleiro que será usado para comparar
     //Inicialização das coordenadas de posicionamento (poslinha, poscoluna)
     int poscoluna = 0;
     int poslinha = 0;
+    int i = 0;
     int n_tipo_peca = 0;
-    int contador_pecas[8] = {0};
+    int contador_pecas[9] = {0};
 
     int numpecas = submat; //restrição nº2
     //printf("nº de peças %d\n", numpecas);
@@ -33,10 +33,10 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
             while( flag == 1 ){
                 apagar_submat(tabuleiro, poslinha, poscoluna);
                 id_global = id_global_aleatorio();
-                    if( id_global > 0){
-                n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
-                flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
-                    }
+                if( id_global > 0){
+                    n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
+                    flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
+                }
 
                 //printf("flag = %d\n", flag);
                 //printf("contador= %d\n", contador);
@@ -51,7 +51,7 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
             }
 
             analisar_pecas(tabuleiro, tabuleiro2, linhas, colunas);
-            contador_pecas[n_tipo_peca - 1]++;
+            contador_pecas[n_tipo_peca]++;
             //imprimir_tabuleiro(tabuleiro, linhas, colunas);
             //imprimir_tabuleiro(tabuleiro2, linhas, colunas);
             
@@ -67,12 +67,20 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
             }
         } else if ( id_global == 0 ){
             n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, 0, tabuleiro);
+            contador_pecas[0]++;
         }
 
         poscoluna += 3;
         if(poscoluna >= colunas - 1){
             poscoluna = 0;
             poslinha += 3;
+        }
+    } 
+    printf("%dx%d ", linhas, colunas);
+    for(i = 8; i >= 0; i--){
+        while(contador_pecas[i] > 0){
+            printf("%d ", i);
+            contador_pecas[i]--;
         }
     }
 }
@@ -82,6 +90,7 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
     int i = 0,
         j = 0,
         n_pecas_aux[10] = {0},
+        id_pecas_contador[10] = {0},
         numpecas = n_pecas[8];
         //printf("nº de pecas %d\n", numpecas);
         int tabuleiro2[25][35] = {0};
@@ -191,6 +200,7 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
             if(flag == 0){
                 flag1 = 0;
             }
+            id_pecas_contador[id_peca]++;
         }
         if(flag1 == 0 && flag == 1){
             return -1;
@@ -207,6 +217,13 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
         if( poscoluna >= colunas - 1 ){
             poscoluna = 0;
             poslinha += 3;
+        }
+    }
+    printf("%dx%d ", linhas, colunas);
+    for(i = 8; i >= 0; i--){
+        while(id_pecas_contador[i] > 0){
+            printf("%d ", i );
+            id_pecas_contador[i]--;
         }
     }
     return 0;
