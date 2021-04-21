@@ -300,8 +300,8 @@ int main(int argc, char *argv[])
         if(modoDisparo == 2){
             disparo_2(tabuleiro, tabuleiro3, linhas, colunas, sub_mat);
         }
-        if(modoDisparo == 2){
-                disparo_2(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
+        if(modoDisparo == 3){
+                disparo_3(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
         }
     }
     

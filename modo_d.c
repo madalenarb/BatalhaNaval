@@ -107,8 +107,6 @@ void disparo_2(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, i
     //estes dois arrays servem para fazer a sequencia pretendida de disparo dentro da matriz 3x3
     int seqlin[] = { 1,0,2,1,1,0,2,0,2};
     int seqcol[] = { 1,1,1,0,2,0,2,2,0};
-    int poscoluna = 0;
-    int poslinha = 0;
     flag = 1;
     int flag2 = 1;
     apagar_tabuleiro(tabuleiro3, linhas, colunas);
@@ -147,38 +145,68 @@ void disparo_2(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, i
         }      
     }
 }
-
-void disparo_3(int tabuleiro[25][35], int tabuleiro3[25][35]){
-    int flag,j,k;
+void disparo_3(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, int linhas,int colunas){
+    int flag;
     int i = 0;
+    int id_peca;
+    char linha,coluna;
+    int a,b,c,d;
     //estes dois arrays servem para fazer a sequencia pretendida de disparo dentro da matriz 3x3
     int seqlin[] = { 1,0,2,1,1,0,2,0,2};
     int seqcol[] = { 1,1,1,0,2,0,2,2,0};
-    int poscoluna = 0;
-    int poslinha = 0;
     flag = 1;
-
-    while(flag == 1 && i < 9 ){
-        if (tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]] == 0 ){
-            tabuleiro3[poslinha+seqlin[i]][poscoluna+seqcol[i]] = 9;
-        }
-        if(tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]] != 0 && tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]] != 9 ){
-            tabuleiro3[poslinha+seqlin[i]][poscoluna+seqcol[i]] = tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]];
-            tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]] = 0;
-            for(j = -1; j < 2; j++){
-                if(tabuleiro[poslinha+seqlin[i]+j][poscoluna+seqcol[i]+1] == 0){
-                tabuleiro3[poslinha+seqlin[i]+j][poscoluna+seqcol[i]+1] = 9;
+    int flag2 = 1;
+    apagar_tabuleiro(tabuleiro3, linhas, colunas);
+    apagar_tabuleiro(tabuleiro, linhas, colunas);
+    while(flag == 1 && disparosMin > 0){
+        for (a = 0; a < linhas;  a += 3){
+            for ( b = 0; b < colunas; b += 3){
+                flag2 = 1;
+                i = 0;
+                
+                while(flag2 == 1 && i < 9){
+                    if (tabuleiro3[a+seqlin[i]][b + seqcol[i]] == 0 && tabuleiro[a+seqlin[i]][b + seqcol[i]] != 9 ){
+                        linha = (linhas - (a + seqlin[i])) + '0';
+                        coluna = (b + seqcol[i]) + 'A'; 
+                        id_peca = resposta(coluna, linha);
+                        if(id_peca == 0){
+                        tabuleiro3[a + seqlin[i]][b + seqcol[i]] = -2;
+                        }
+                        else if(id_peca > 0 ){
+                        tabuleiro3[a + seqlin[i]][b + seqcol[i]] = id_peca;
+                        disparosMin --;
+                        if(disparosMin == 0){
+                            restricaodisparo3(tabuleiro3,tabuleiro,a,b);
+                            return 0;
+                        }
+                        printf("disparosminimos:%d\n",disparosMin);
+                        flag2 =verificar_mat(tabuleiro3,id_peca,a,b);
+                        //printf("%d",id_pecanum);
+                        }          
+                        //printf("a flag2 é =%d\n",flag2);           
+                    }
+                    i++;
+                    imprimir_tabuleiro(tabuleiro3, linhas, colunas);
+                    imprimir_tabuleiro(tabuleiro, linhas, colunas);
+                    
+                    //imprimir_tabuleiro(tabuleiro3, linhas, colunas);
                 }
+                restricaodisparo3(tabuleiro3,tabuleiro,a,b);
             }
-            if(tabuleiro[poslinha+seqlin[i]+1][poscoluna+seqcol[i]] == 0){
-                tabuleiro[poslinha+seqlin[i]+1][poscoluna+seqcol[i]] = 9;
+        }      
+    }
+}
+void restricaodisparo3(int tabuleiro3[25][35], int tabuleiro[25][35], int a, int b){
+    int i,k,d;
+    for(i=0; i<3; i++){
+        for(k=0; k<3; k++){
+            if(tabuleiro3[a+i][b+k] > 0){
+                for(d = -1; d < 2; d++){
+                    tabuleiro[a+i+d][b+k+1] = 9;
+                }
+                tabuleiro[a+i+1][b+k] = 9;
+                tabuleiro[a+i+1][b+k-1] = 9;
             }
-            if(tabuleiro[poslinha+seqlin[i]+1][poscoluna+seqcol[i]-1] == 0){
-                tabuleiro3[poslinha+seqlin[i]+1][poscoluna+seqcol[i]-1] = 9;
-            }
-            
-            flag = verificar_matriz(tabuleiro);
         }
-        i++;
     }
 }
