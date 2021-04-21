@@ -28,33 +28,30 @@ int verificar_mat(int tabuleiro3[25][35],int id_pecanum,int a,int b){
     return 1;
 }
 
-void disparo_1(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin,int linhas, int colunas){
-    int randcol = 0;
-    int randlin = 0;
+void disparo_1(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, int disparosMax, int linhas, int colunas){
+    int randCol = 0;
+    int randLin = 0;
     int flag = 0;
+    int n_disparos = 0;
     char id_peca; 
-    char charndlin ;
-    char charndcol;   
+    char charRandLin;
+    char charRandCol;   
     apagar_tabuleiro(tabuleiro3, linhas, colunas);
-    imprimir_tabuleiro(tabuleiro3, linhas, colunas);
+    //imprimir_tabuleiro(tabuleiro3, linhas, colunas);
     
     
-    while( disparosMin > 0 || flag == 1 ){
-        randcol = (rand()%colunas);
-        randlin = (rand()%linhas);
-        charndlin = (linhas-randlin)+ '0';
-        charndcol = randcol + 'A';
+    while( disparosMin > 0 && n_disparos < disparosMax ){
+        randCol = (rand()%colunas);
+        randLin = (rand()%linhas);
+        charRandLin = (linhas-randLin)+ '0';
+        charRandCol = randCol + 'A';
         
-        if(tabuleiro3[randlin][randcol] == 0 ){
-                printf("\n%c%c\n",charndlin, charndcol);
-                
-                id_peca = getchar();
-                getchar();
-                
-                int id_pecanum = id_peca - '0';
-                
+        if(tabuleiro3[randLin][randCol] == 0 ){
+
+                id_peca = resposta(charRandCol, charRandLin);
                 //printf("%d\n",id_pecanum);
                 //printf("%d\n",id_peca);
+<<<<<<< HEAD
                 if(id_peca == '-'){
                     tabuleiro3[randlin][randcol] = -2;
                     //printf("%c",'-');
@@ -62,14 +59,38 @@ void disparo_1(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin,in
                 else if(id_pecanum > 0){
                     tabuleiro3[randlin][randcol] = id_pecanum;
                     disparosMin --;
+=======
+                if(id_peca == 0){
+                    tabuleiro3[randLin][randCol] = -2;
+                    //printf("%c",'-');
+                }
+                else if(id_peca > 0){
+                    tabuleiro3[randLin][randCol] = id_peca;
+                    disparosMin--;
+>>>>>>> 5da33d96c24071a1cabdc2e8366374477ee16425
                     //printf("%d",id_pecanum);
                 } 
-        }    
-                     
+                n_disparos--;
+        }         
     }       
-        flag = verificar_tab(tabuleiro, linhas, colunas);   
-      
+}
 
+int resposta(char charCol, char charLin)
+{
+    int id_peca = 0;
+    printf("%c%c\n", charCol, charLin);
+    int tipo_peca_num = 0;
+    id_peca = getchar();
+    getchar();
+    
+    int id_peca_num = id_peca - '0';
+    
+    if(id_peca == '-'){
+        id_peca_num = 0;
+    } else if (id_peca_num > 0){
+        id_peca_num = id_peca - '0';
+    }
+    return id_peca_num;
 }
 
 //verifica se a matriz 3x3 ainda tem peças. caso encontre uma peça retorna 1, se nao houverem peças retorna 0
@@ -88,18 +109,26 @@ int verificar_matriz(int tabuleiro[25][35]){
 
 
 
+<<<<<<< HEAD
 void disparo_2(int tabuleiro[25][35], int tabuleiro3[25][35],int disparosMin,int linhas,int colunas){
     int flag;
     int id_pecanum;
+=======
+void disparo_2(int tabuleiro[25][35], int tabuleiro3[25][35], int linhas, int colunas, int submat){
+    int flag;
+    char charLin;
+    char charCol;  
+>>>>>>> 5da33d96c24071a1cabdc2e8366374477ee16425
     int i = 0;
     char id_peca;
     char linha,coluna;
     int a,b,c;
     //estes dois arrays servem para fazer a sequencia pretendida de disparo dentro da matriz 3x3
-    int seqlin[] = { 1,0,2,1,1,0,2,0,2};
-    int seqcol[] = { 1,1,1,0,2,0,2,2,0};
+    int seqlin[] = { 1,0,2,1,1,0,2,0,2 };
+    int seqcol[] = { 1,1,1,0,2,0,2,2,0 };
     int poscoluna = 0;
     int poslinha = 0;
+<<<<<<< HEAD
     flag = 1;
     int flag2 = 1;
     apagar_tabuleiro(tabuleiro3, linhas, colunas);
@@ -137,6 +166,27 @@ void disparo_2(int tabuleiro[25][35], int tabuleiro3[25][35],int disparosMin,int
                 }
             }
         }      
+=======
+    int pos = 0;
+
+    for( pos = 0; pos < submat; pos++ ){
+        for( i = 0; i < 9; i++ ){
+            if (tabuleiro[poslinha + seqlin[i]][poscoluna + seqcol[i]] == 0 ){
+                tabuleiro3[poslinha + seqlin[i]][poscoluna + seqcol[i]] = -2;
+            }
+            if(tabuleiro[poslinha + seqlin[i]][poscoluna + seqcol[i]] != 0 ){
+                tabuleiro3[poslinha + seqlin[i]][poscoluna + seqcol[i]] = tabuleiro[poslinha+seqlin[i]][poscoluna+seqcol[i]];
+                tabuleiro[poslinha + seqlin[i]][poscoluna + seqcol[i]] = 0;
+            }
+            charLin = (linhas - (poslinha + seqlin[i])) + '0';
+            charCol = (poscoluna + seqcol[i]) + 'A';
+        }
+        poscoluna += 3;
+        if( poscoluna >= colunas - 1 ){
+            poscoluna = 0;
+            poslinha += 3;
+        }
+>>>>>>> 5da33d96c24071a1cabdc2e8366374477ee16425
     }
 }
 
