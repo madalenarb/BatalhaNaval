@@ -34,7 +34,8 @@ int main(int argc, char *argv[])
         modoJogo = DEFAULT_MODO_JOGO,
         modoPosicionamento = DEFAULT_MODO_POSICIONAMENTO,
         modoDisparo = DEFAULT_MODO_DISPARO;
-    int disparosMin = 0;  //nºs de disparos mínimos necessários para vencer
+    int disparosMin = 0,
+        disparosMax = 0;  //nºs de disparos mínimos necessários para vencer
     int id_peca_2; // identifica o id peca da peca indicada pelo utilizador no modo de jogo 2
     int n_pecas[9] = {0};
     int flagvec[9] = {0}; // vetor de flag que indica que tipo de pecas já foram testadas (p_2)
@@ -289,8 +290,15 @@ int main(int argc, char *argv[])
         for(i = 0; i < 8; i++){
             disparosMin += (i + 1) * n_pecas[i];
         }
+
+        disparosMax = linhas * colunas;
+
         if(modoDisparo == 1){
-                disparo_1(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
+            disparo_1(tabuleiro, tabuleiro3, disparosMin, disparosMax, linhas, colunas);
+            imprimir_tabuleiro(tabuleiro3, linhas, colunas);
+        }
+        if(modoDisparo == 2){
+            disparo_2(tabuleiro, tabuleiro3, linhas, colunas, sub_mat);
         }
         if(modoDisparo == 2){
                 disparo_2(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
