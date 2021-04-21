@@ -292,6 +292,9 @@ int main(int argc, char *argv[])
         if(modoDisparo == 1){
                 disparo_1(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
         }
+        if(modoDisparo == 2){
+                disparo_2(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
+        }
     }
     
     
