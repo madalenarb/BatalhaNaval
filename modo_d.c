@@ -13,10 +13,11 @@ int verificar_tab(int tabuleiro[25][35], int linhas, int colunas){
     return 0;  
 }
 
-void disparo_1(int tabuleiro3[25][35], int disparosMin, int disparosMax, int linhas, int colunas){
+int disparo_1(int tabuleiro3[25][35], int disparosMin, int disparosMax, int linhas, int colunas){
     int randCol = 0;
     int randLin = 0;
     int n_disparos = 0;
+    int contador = 0;
     char id_peca;
     char charRandCol;   
     apagar_tabuleiro(tabuleiro3, linhas, colunas);
@@ -29,22 +30,19 @@ void disparo_1(int tabuleiro3[25][35], int disparosMin, int disparosMax, int lin
         charRandCol = randCol + 'A';
         
         if(tabuleiro3[randLin][randCol] == 0 ){
-
+                contador++;
                 id_peca = resposta(charRandCol, randLin);
-                //printf("%d\n",id_pecanum);
-                //printf("%d\n",id_peca);
                 if(id_peca == 0){
                     tabuleiro3[randLin][randCol] = -2;
-                    //printf("%c",'-');
                 }
                 else if(id_peca > 0){
                     tabuleiro3[randLin][randCol] = id_peca;
                     disparosMin--;
-                    //printf("%d",id_pecanum);
                 } 
                 n_disparos--;
         }         
-    }       
+    } 
+    return contador;      
 }
 //esta funçao serve para o utilizador dar o input de resposta aos disparos do computador
 //o input tem que ser de um carater apenas: 1-8 caso o computador acerte numa peça e '-' caso atinja água
@@ -99,31 +97,29 @@ int verificar_mat(int tabuleiro3[25][35], int id_peca, int a, int b){
 /*funçao de disparo2: o computador dispara de acordo com uma sequencia, ate atinjir todas as peças numa matriz3x3
 , e depois avança para a matriz seguinte*/
 
-void disparo_2(int tabuleiro3[25][35], int disparosMin, int linhas, int colunas){
-    int flag;
+int disparo_2(int tabuleiro3[25][35], int disparosMin, int linhas, int colunas){
     int i = 0;
     int id_peca;
     char coluna;
     int linha;
+    int contador = 0;
     int a,b;
     //estes dois arrays servem para fazer a sequencia pretendida de disparo dentro da matriz 3x3
     int seqlin[] = { 1,0,2,1,1,0,2,0,2};
     int seqcol[] = { 1,1,1,0,2,0,2,2,0};
-    flag = 1;
     int flag2 = 1;
     apagar_tabuleiro(tabuleiro3, linhas, colunas);
-    while(flag == 1 && disparosMin > 0){
+    while( disparosMin > 0){
         for (b = 0; b < colunas;  b += 3){
             for ( a = 0; a < linhas; a += 3){
                 flag2 = 1;
                 i = 0;
                 while(flag2 == 1 && i < 9){
                     if (tabuleiro3[a + seqlin[i]][b + seqcol[i]] == 0 ){
-                        //printf("linha é:%d\n",a);
-                        //printf("coluna é:%d\n",b);
                         linha = (linhas - (a + seqlin[i]));
                         coluna = (b + seqcol[i]) + 'A'; 
                         id_peca = resposta(coluna, linha);
+                        contador++;
                         if(id_peca == 0){
                             tabuleiro3[a + seqlin[i]][b + seqcol[i]] = -2;
                         }
@@ -131,9 +127,8 @@ void disparo_2(int tabuleiro3[25][35], int disparosMin, int linhas, int colunas)
                         tabuleiro3[a + seqlin[i]][b + seqcol[i]] = id_peca;
                         disparosMin--;
                         if(disparosMin == 0){
-                            return;
+                            return contador;
                         }
-                        printf("disparosminimos:%d\n",disparosMin);
                         flag2 = verificar_mat(tabuleiro3,id_peca,a,b);
                         //printf("%d",id_pecanum);
                         }          
@@ -146,63 +141,58 @@ void disparo_2(int tabuleiro3[25][35], int disparosMin, int linhas, int colunas)
             }
         }      
     }
+    return contador;
 }
 /*funçao de disparo3, semelhante ao disparo 2 mas inclui tmb a funcao de restricaodisparo3: o computador n dispara
 numa posiçao adjacente a uma posiçao ja preenchida  */
-void disparo_3(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, int linhas,int colunas){
-    int flag;
+int disparo_3(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, int linhas,int colunas){
     int i = 0;
     int id_peca;
+    int contador = 0;
     char linha,coluna;
     int a,b;
     //estes dois arrays servem para fazer a sequencia pretendida de disparo dentro da matriz 3x3
     int seqlin[] = { 1,0,2,1,1,0,2,0,2};
     int seqcol[] = { 1,1,1,0,2,0,2,2,0};
-    flag = 1;
     /*a flag2 devolve 0 caso as peças numa matriz3x3 ja tinham sido todas preenchidas (para verificar usamos a funçao 
     verificar_mat)*/
     int flag2 = 1;
     apagar_tabuleiro(tabuleiro3, linhas, colunas);
     apagar_tabuleiro(tabuleiro, linhas, colunas);
-    while(flag == 1 && disparosMin > 0){
+    while(disparosMin > 0){
         for (b = 0; b < colunas;  b += 3){
             for ( a = 0; a < linhas; a += 3){
                 flag2 = 1;
                 i = 0;
-                
                 while(flag2 == 1 && i < 9){
                     if (tabuleiro3[a+seqlin[i]][b + seqcol[i]] == 0 && tabuleiro[a + seqlin[i]][b + seqcol[i]] != 9 ){
                         linha = (linhas - (a + seqlin[i]));
                         coluna = (b + seqcol[i]) + 'A'; 
                         id_peca = resposta(coluna, linha);
+                        contador ++;
                         if(id_peca == 0){
-                        tabuleiro3[a + seqlin[i]][b + seqcol[i]] = -2;
+                            tabuleiro3[a + seqlin[i]][b + seqcol[i]] = -2;
                         }
                         else if(id_peca > 0 ){
-                        tabuleiro3[a + seqlin[i]][b + seqcol[i]] = id_peca;
-                        disparosMin --;
-                        if(disparosMin == 0){
-                            restricaodisparo3(tabuleiro3,tabuleiro,a,b);
-                            return;
-                        }
-                        //printf("disparosminimos:%d\n",disparosMin);
+                            tabuleiro3[a + seqlin[i]][b + seqcol[i]] = id_peca;
+                            disparosMin --;
+                            printf("%d disparosMin\n",disparosMin);
+                            if(disparosMin == 0){
+                                restricaodisparo3(tabuleiro3,tabuleiro,a,b);
+                                return contador;
+                            }
                         flag2 = verificar_mat(tabuleiro3, id_peca, a, b);
-                        //printf("%d",id_pecanum);
-                        }          
-                        //printf("a flag2 é =%d\n",flag2);           
+                        }                     
                     }
                     i++;
-                    //imprimir_tabuleiro(tabuleiro3, linhas, colunas);
-                    //imprimir_tabuleiro(tabuleiro, linhas, colunas);
-                    
-                    //imprimir_tabuleiro(tabuleiro3, linhas, colunas);
                 }
                 restricaodisparo3(tabuleiro3,tabuleiro,a,b);
             }
         }      
     }
+    return contador;
 }
-/*esta funçao serve para aplicar a restriçao no disparo 3 (o tabuleiro1 fica a 9,
+/*esta funçao serve para aplicar a restriçao no disparo 3 (o tabuleiro1 fica a 9 nas posiçoes adjacentes ao disparo,
  indicando ao computador que nao pode disparar nestas posiçoes)*/
 void restricaodisparo3(int tabuleiro3[25][35], int tabuleiro[25][35], int a, int b){
     int i, k, d;
