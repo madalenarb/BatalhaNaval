@@ -88,7 +88,6 @@ int main(int argc, char *argv[])
     encontradas pelo PC após um disparo, no modo de jogo 2
     */
     int tabuleiro3[25][35] = {0}; // tabuleiro no qual será registado as peças encontradas pelo computador no modo de jogo 2
-    int n_pecas_contador[9] = {0};
     char opt = 'h'; // opção para getopt()
     srand(time(NULL));
 
@@ -263,10 +262,6 @@ int main(int argc, char *argv[])
     char y_char;
     int y = 0;
 
-    for( i = 0; i < 9; i++){
-        n_pecas_contador[i + 1] = n_pecas[i];
-    }
-
     if ( modoJogo == 0 ){
         if ( modoPosicionamento == 1 ){
             //printf("linhas: %d\n colunas: %d\n", linhas, colunas);
@@ -364,16 +359,19 @@ int main(int argc, char *argv[])
         printf("* Responda aos disparos do programa\n");
         printf("*=================================\n");
         printf("%dx%d ", linhas, colunas);
+
+        for(i = 0; i < 8; i++){
+            printf("%d ", n_pecas[i]);
+        }
+        printf("\n");
+
         for(i = 0; i < 8; i++){
             disparosMin += (i + 1) * n_pecas[i];
         }
-        n_pecas_contador[0] = sub_mat - (n_pecas[8]);
+
         //printf("%dx%d ", linhas, colunas);
-        for(i = 8; i >= 0; i--){
-            while(n_pecas_contador[i] > 0){
-                printf("%d ", i );
-                n_pecas_contador[i]--;
-            }
+        for(i = 0; i >= 7; i--){
+            printf("%d ", i );
         }
 
         disparosMax = linhas * colunas;
