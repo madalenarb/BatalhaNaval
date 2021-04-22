@@ -11,7 +11,7 @@ Regente: Professor Nuno Horta MEEC
 #include "modo_d.h"
 #include "modo_p.h"
 
-//definir valores default 
+//definir valores default
 #define DEFAULT_LINHAS 9 /* valor por omissão para o número de linhas do tabuleiro */
 #define DEFAULT_COLUNAS 9 /* valor por omissão para o número de colunas do tabuleiro */
 #define DEFAULT_MODO_JOGO 0 /* valor por omissão do modo de jogo */
@@ -48,7 +48,7 @@ Argumentos: argc, argv
 return: 0- O programa acabou
 
 Descrição: Verifica a linha de comando;
-Inicializa variáveis;
+
 Cria os modos de jogo, chamando as funções do modo de posição e do modo de disparo;
 */
 
@@ -64,22 +64,22 @@ int main(int argc, char *argv[])
         modoPosicionamento = DEFAULT_MODO_POSICIONAMENTO,
         modoDisparo = DEFAULT_MODO_DISPARO;
     /*
-    disparosMin: número mínimo de disparos necessários para 
+    disparosMin: número mínimo de disparos necessários para
     acertar em todos os navios do tabuleiro.
     disparosMax: número máximo de disparos que se pode realizar.
     */
-    int disparosMin = 0, 
-        disparosMax = 0; 
+    int disparosMin = 0,
+        disparosMax = 0;
      /*
     n_pecas: vetor que indica a quantidade de cada peca,
-    sendo que as posições 0 a 7 do vetor correspondem a 
-    um tipo de peça do tabuleiro, de 1 a 8, e a posição 
+    sendo que as posições 0 a 7 do vetor correspondem a
+    um tipo de peça do tabuleiro, de 1 a 8, e a posição
     8 corresponde ao número total de peças no tabuleiro
     */
     int n_pecas[9] = {0};
     /*
     flagvec: vetor de flag que indica que tipo de peças
-    já foram testadas, de 0, que corresponde a uma matriz 
+    já foram testadas, de 0, que corresponde a uma matriz
     3x3 vazia, a 8 (aplica-se ao modo de jogo 2)
     */
     int flagvec[9] = {0};
@@ -87,12 +87,15 @@ int main(int argc, char *argv[])
     tabuleiro: tabuleiro onde são geradas as peças no
     modo de jogo 0 e no modo de jogo 1
     */
-    int tabuleiro[25][35] = {0};
+    int tabuleiro[25][35] = {{0}};
     /*
     tabuleiro3: tabuleiro onde são registadas as peças
     encontradas pelo PC após um disparo, no modo de jogo 2
     */
-    int tabuleiro3[25][35] = {0};
+    int tabuleiro3[25][35] = {{0}};
+    /*
+
+    */
     int n_pecas_contador[9] = {0};
     char opt = 'h'; // opção para getopt()
     srand(time(NULL));
@@ -105,7 +108,7 @@ int main(int argc, char *argv[])
         //printf("%c",opt);
         switch(opt) {
             /*
-            case 't': identifica quando se usa o -t, e de seguida aponta (através do ) para o ínicio da inserção de 2 números 
+            case 't': identifica quando se usa o -t, e de seguida aponta (através do ) para o ínicio da inserção de 2 números
             */
             case 't':
                 sscanf(optarg, "%dx%d", &linhas, &colunas);
@@ -134,7 +137,7 @@ int main(int argc, char *argv[])
                     exit(0);
                 }
                 break;
-            
+
             case 'p':
                 sscanf(optarg, "%d", &modoPosicionamento);
                 //printf("p = %d\n", modoPosicionamento);
@@ -144,8 +147,8 @@ int main(int argc, char *argv[])
                 if (modoPosicionamento < 1 || modoPosicionamento > 2){
                     printf ("O modo de posicionamento das peças é de 1 a 2\n");
                     printf("-1\n");
-                    exit(0);   
-                }           
+                    exit(0);
+                }
                 break;
 
             case 'd':
@@ -254,18 +257,9 @@ int main(int argc, char *argv[])
 
     //instrucoes();
     //imprimir_tabuleiro(tabuleiro, linhas, colunas);
-    /*for ( i = 0; i < 2; i++ )
-    {
-        colocar_peca(tabuleiro,0,0,1,i);
-        imprimir_tabuleiro(tabuleiro, linhas, colunas);
-        tabuleiro[15][24] = {0};
-    }*/
-    /*
-    testar a impressão de peças aleatorias:
-    */
     int contador = 0;
     time_t start, end;
-    double total;
+    double total = 0;
     int sub_mat = 0;
     int flag = 0,
     flag2 = 0,
@@ -278,46 +272,34 @@ int main(int argc, char *argv[])
 
     if ( modoJogo == 0 ){
         if ( modoPosicionamento == 1 ){
-            //printf("linhas: %d\n colunas: %d\n", linhas, colunas);
             p_1(tabuleiro, sub_mat, linhas, colunas);
-            //printf("\n submat = %d\n\n", sub_mat);
-            
-            //printf("%dx%d", linhas, colunas);
         }
 
         if(modoPosicionamento == 2){
-            //restrição 4
 
             if( n_pecas[8] > sub_mat / 2 ){
                 printf("\nO nº total de peças tem de ser menor ou igual à metade do número de metrizes 3x3.\n\n");
                 exit(0);
             }
-            /*for( i = 0; i < 9; i++){
-                printf("peça antes %d: %d\n", i + 1, n_pecas[i]);
-            }*/
+
             flag = p_2(tabuleiro, n_pecas, flagvec, sub_mat, linhas, colunas);
 
             while(flag == -1){
                 apagar_tabuleiro(tabuleiro, linhas, colunas);
                 flag = p_2(tabuleiro, n_pecas, flagvec, sub_mat, linhas, colunas);
                 contador_r1++;
-                //printf("contador: %d\n", contador_r1);
-               /* if(contador_r1 == 1000){
-                    printf("-1\n"); 
-                    exit(0);
-                }*/
             }
         }
         printf("\n");
         imprimir_tabuleiro(tabuleiro, linhas, colunas);
     }
-   
+
     if ( modoJogo == 1 ){
         time (&start);
-        printf("*=================================\n");
+        printf("* =================================\n");
         printf("* Modo de Jogo 1\n");
         printf("* Insira as coordenadas de Disparo\n");
-        printf("*=================================\n");
+        printf("* =================================\n");
         int contador_jogadas = 0;
         if(modoPosicionamento == 1){
             p_1(tabuleiro, sub_mat, linhas, colunas);
@@ -352,7 +334,6 @@ int main(int argc, char *argv[])
             scanf(" %c %d", &y_char,&x); // x = nº de linhas total - linha
             contador++;
             y = y_char - 'A'; // y = coluna
-            //printf("%d %d\n", linhas - x + 1, y);
 
             if(tabuleiro[linhas - x][y] == 0){
                 printf("-\n");
@@ -361,23 +342,22 @@ int main(int argc, char *argv[])
             }
             tabuleiro3[linhas - x][y] = 0;
             flag3 = verificar_tab(tabuleiro3, linhas, colunas);
-            //imprimir_tabuleiro(tabuleiro2, linhas, colunas);
-            //imprimir_tabuleiro(tabuleiro, linhas, colunas);
+
             contador_jogadas++;
         }
         time(&end);
         imprimir_tabuleiro(tabuleiro, linhas, colunas);
         total = difftime (end,start);
         printf("Fim de jogo: %d jogadas em %f segundos\n",contador,total);
-        
+
     }
-    
+
     if( modoJogo == 2 ){
-        printf("*=================================\n");
+        printf("* =================================\n");
         printf("* Modo de Jogo 2\n");
         printf("* Crie um tabuleiro com as características indicadas\n");
         printf("* Responda aos disparos do programa\n");
-        printf("*=================================\n");
+        printf("* =================================\n");
         printf("%dx%d ", linhas, colunas);
 
         for(i = 0; i < 8; i++){
@@ -404,36 +384,36 @@ int main(int argc, char *argv[])
         if(modoDisparo == 1){
             time(&start);
             if(disparosMin > 0){
-                
+
                 contador = disparo_1(tabuleiro3, disparosMin, disparosMax, linhas, colunas);
                 time(&end);
                 total = difftime (end,start);
-                
+
             }
         }
         if(modoDisparo == 2){
             if(disparosMin > 0){
                 time(&start);
-                
+
                 contador = disparo_2(tabuleiro3, disparosMin, linhas, colunas);
                 time(&end);
                 total = difftime (end,start);
-                
+
             }
         }
         if(modoDisparo == 3){
             if(disparosMin > 0){
                 time(&start);
-                
+
                 contador = disparo_3(tabuleiro3, disparosMin, linhas, colunas);
                 time(&end);
                 total = difftime (end,start);
-                
+
             }
         }
         printf("\n");
         imprimir_tabuleiro(tabuleiro3, linhas, colunas);
-        printf("\nFim de jogo: %d jogadas em %f segundos\n",contador,total);
+        printf("Fim de jogo: %d jogadas em %f segundos\n", contador, total);
     }
     return 0;
 }
