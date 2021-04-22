@@ -23,7 +23,8 @@ Função: instrucoes
 
 Argumento: programa
 
-
+Descrição: Esta função irá ser chamada quando escreverem a opção -h no terminal
+ou quando der um erro
 
 */
 void instrucoes(char *programa)
@@ -121,6 +122,7 @@ int main(int argc, char *argv[])
                 {
                     printf("A dimensão do tabuleiro deve ser no mínimo 9x9 e no máximo 15x24\n\n");
                     printf("-1\n");
+                    instrucoes(argv[0]);
                     exit(0);
                 }
                 break;
@@ -134,6 +136,7 @@ int main(int argc, char *argv[])
                 if ( modoJogo < 0 || modoJogo > 2 ){
                     printf("O modo do jogo é de 0 a 2\n");
                     printf("-1\n");
+                    instrucoes(argv[0]);
                     exit(0);
                 }
                 break;
@@ -147,6 +150,7 @@ int main(int argc, char *argv[])
                 if (modoPosicionamento < 1 || modoPosicionamento > 2){
                     printf ("O modo de posicionamento das peças é de 1 a 2\n");
                     printf("-1\n");
+                    instrucoes(argv[0]);
                     exit(0);
                 }
                 break;
@@ -160,6 +164,7 @@ int main(int argc, char *argv[])
                 if (modoDisparo < 1 || modoDisparo > 3)
                 {
                     printf("O modo de disparo das peças é de 1 a 3\n");
+                    instrucoes(argv[0]);
                     exit(0);
                 }
                 break;
@@ -174,6 +179,7 @@ int main(int argc, char *argv[])
                 sscanf(optarg, "%d", &n_pecas[1]);
                 if( n_pecas[1] > n_pecas[0] ){
                     printf("-1\n");
+                    instrucoes(argv[0]);
                     exit(0);
                 }
 
@@ -185,6 +191,7 @@ int main(int argc, char *argv[])
                 sscanf(optarg, "%d", &n_pecas[2]);
                 if( n_pecas[2] > n_pecas[1] ){
                     printf("-1\n");
+                    instrucoes(argv[0]);
                     exit(0);
                 }
 
@@ -196,6 +203,7 @@ int main(int argc, char *argv[])
                 sscanf(optarg, "%d", &n_pecas[3]);
                 if( n_pecas[3] > n_pecas[2] ){
                     printf("-1\n");
+                    instrucoes(argv[0]);
                     exit(0);
                 }
 
@@ -207,6 +215,7 @@ int main(int argc, char *argv[])
                 sscanf(optarg, "%d", &n_pecas[4]);
                 if( n_pecas[4] > n_pecas[3] ){
                     printf("-1\n");
+                    instrucoes(argv[0]);
                     exit(0);
                 }
 
@@ -218,6 +227,7 @@ int main(int argc, char *argv[])
                 sscanf(optarg, "%d", &n_pecas[5]);
                 if( n_pecas[5] > n_pecas[4] ){
                     printf("-1\n");
+                    instrucoes(argv[0]);
                     exit(0);
                 }
                 n_pecas[8] += n_pecas[5];
@@ -228,6 +238,7 @@ int main(int argc, char *argv[])
                 sscanf(optarg, "%d", &n_pecas[6]);
                 if( n_pecas[6] > n_pecas[5] ){
                     printf("-1\n");
+                    instrucoes(argv[0]);
                     exit(0);
                 }
 
@@ -239,6 +250,7 @@ int main(int argc, char *argv[])
                 sscanf(optarg, "%d", &n_pecas[7]);
                 if( n_pecas[7] > n_pecas[6] ){
                     printf("-1\n");
+                    instrucoes(argv[0]);
                     exit(0);
                 }
 
