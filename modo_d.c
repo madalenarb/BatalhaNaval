@@ -133,7 +133,7 @@ void disparo_2(int tabuleiro3[25][35], int disparosMin, int linhas, int colunas)
                         if(disparosMin == 0){
                             return;
                         }
-                        printf("disparosminimos:%d\n",disparosMin);
+                        //printf("disparosminimos:%d\n",disparosMin);
                         flag2 = verificar_mat(tabuleiro3,id_peca,a,b);
                         //printf("%d",id_pecanum);
                         }          
@@ -149,11 +149,12 @@ void disparo_2(int tabuleiro3[25][35], int disparosMin, int linhas, int colunas)
 }
 /*funçao de disparo3, semelhante ao disparo 2 mas inclui tmb a funcao de restricaodisparo3: o computador n dispara
 numa posiçao adjacente a uma posiçao ja preenchida  */
-void disparo_3(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, int linhas,int colunas){
+void disparo_3(int tabuleiro3[25][35], int disparosMin, int linhas,int colunas){
     int flag;
     int i = 0;
     int id_peca;
     char linha,coluna;
+    int tabuleiro[25][35] = {0};
     int a,b;
     //estes dois arrays servem para fazer a sequencia pretendida de disparo dentro da matriz 3x3
     int seqlin[] = { 1,0,2,1,1,0,2,0,2};
@@ -163,7 +164,6 @@ void disparo_3(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, i
     verificar_mat)*/
     int flag2 = 1;
     apagar_tabuleiro(tabuleiro3, linhas, colunas);
-    apagar_tabuleiro(tabuleiro, linhas, colunas);
     while(flag == 1 && disparosMin > 0){
         for (b = 0; b < colunas;  b += 3){
             for ( a = 0; a < linhas; a += 3){
@@ -171,7 +171,7 @@ void disparo_3(int tabuleiro[25][35], int tabuleiro3[25][35], int disparosMin, i
                 i = 0;
                 
                 while(flag2 == 1 && i < 9){
-                    if (tabuleiro3[a+seqlin[i]][b + seqcol[i]] == 0 && tabuleiro[a + seqlin[i]][b + seqcol[i]] != 9 ){
+                    if (tabuleiro3[a + seqlin[i]][b + seqcol[i]] == 0 && tabuleiro[a + seqlin[i]][b + seqcol[i]] != 9 ){
                         linha = (linhas - (a + seqlin[i]));
                         coluna = (b + seqcol[i]) + 'A'; 
                         id_peca = resposta(coluna, linha);

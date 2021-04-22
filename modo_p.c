@@ -16,7 +16,6 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
 
     int numpecas = submat; //restrição nº2
     //printf("nº de peças %d\n", numpecas);
-
     for ( pos = 0; pos < submat; pos++)
     {
         //printf("pos%dx%d\n", poslinha, poscoluna);
@@ -77,6 +76,7 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
             poslinha += 3;
         }
     } 
+
     printf("%dx%d ", linhas, colunas);
     for(i = 8; i >= 0; i--){
         while(contador_pecas[i] > 0){

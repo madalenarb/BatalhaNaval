@@ -8,5 +8,5 @@ void disparo_1(int tabuleiro3[25][35], int disparosMin, int disparosMax, int lin
 int verificar_matriz(int tabuleiro[25][35]);
 int verificar_mat(int tabuleiro3[25][35], int id_peca, int a, int b);
 void disparo_2(int tabuleiro3[25][35], int disparosMin, int linhas, int colunas);
-void disparo_3(int tabuleiro[25][35],int tabuleiro3[25][35], int disparosMin, int linhas,int colunas);
+void disparo_3(int tabuleiro3[25][35], int disparosMin, int linhas,int colunas);
 void restricaodisparo3(int tabuleiro3[25][35], int tabuleiro[25][35], int a, int b);
