@@ -317,7 +317,7 @@ int main(int argc, char *argv[])
             p_1(tabuleiro, sub_mat, linhas, colunas);
             printf("\n");
         }
-        if(modoPosicionamento == 2){
+        if( modoPosicionamento == 2 ){
             if( n_pecas[8] > sub_mat / 2 ){
                 printf("\nO nº total de peças tem de ser menor ou igual à metade do número de metrizes 3x3.\n\n");
                 exit(0);
@@ -339,8 +339,12 @@ int main(int argc, char *argv[])
                 }
         }
 
+        if(n_pecas[8] <= 0){
+            imprimir_tabuleiro(tabuleiro, linhas, colunas);
+            return(0);
+        }
 
-        while( flag3 == 1 && n_pecas[8]){
+        while( flag3 == 1 ){
             y = 0;
             x = 0;
             scanf(" %c %d", &y_char,&x); // x = nº de linhas total - linha
