@@ -12,13 +12,20 @@ Regente: Professor Nuno Horta MEEC
 #include "modo_p.h"
 
 //definir valores default 
-#define DEFAULT_LINHAS 9
-#define DEFAULT_COLUNAS 9
-#define DEFAULT_MODO_JOGO 0
-#define DEFAULT_MODO_POSICIONAMENTO 1
-#define DEFAULT_MODO_DISPARO 1
+#define DEFAULT_LINHAS 9 /* valor por omissão para o número de linhas do tabuleiro */
+#define DEFAULT_COLUNAS 9 /* valor por omissão para o número de colunas do tabuleiro */
+#define DEFAULT_MODO_JOGO 0 /* valor por omissão do modo de jogo */
+#define DEFAULT_MODO_POSICIONAMENTO 1 /* valor por omissão do modo de posicionamento */
+#define DEFAULT_MODO_DISPARO 1 /* valor por omissão do modo de disparo */
 
-//função que será executada quando o utilizador escreve -h no terminal
+/*
+Função: instrucoes
+
+Argumento: programa
+
+
+
+*/
 void instrucoes(char *programa)
 {
     printf("B A T A L H A   N A V A L\n\n");
@@ -90,11 +97,16 @@ int main(int argc, char *argv[])
     char opt = 'h'; // opção para getopt()
     srand(time(NULL));
 
-    // opções da linha de comandos:
+    /*
+    verifica a linha de comandos:
+    */
     while ((opt = getopt(argc,argv,"ht:j:p:d:1:2:3:4:5:6:7:8:")) != -1)
     {
         //printf("%c",opt);
         switch(opt) {
+            /*
+            case 't': identifica quando se usa o -t, e de seguida aponta (através do ) para o ínicio da inserção de 2 números 
+            */
             case 't':
                 sscanf(optarg, "%dx%d", &linhas, &colunas);
                 //printf("%dx%d\n", linhas, colunas);
