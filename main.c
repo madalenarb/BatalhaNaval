@@ -237,6 +237,9 @@ int main(int argc, char *argv[])
     /*
     testar a impressão de peças aleatorias:
     */
+    int contador = 0;
+    time_t start, end;
+    double total;
     int sub_mat = 0;
     int flag = 0,
     flag2 = 0,
@@ -288,6 +291,7 @@ int main(int argc, char *argv[])
     }
    
     if ( modoJogo == 1 ){
+        time (&start);
         printf("*=================================\n");
         printf("* Modo de Jogo 1\n");
         printf("* Insira as coordenadas de Disparo\n");
@@ -324,6 +328,7 @@ int main(int argc, char *argv[])
             y = 0;
             x = 0;
             scanf(" %c %d", &y_char,&x); // x = nº de linhas total - linha
+            contador++;
             y = y_char - 'A'; // y = coluna
             //printf("%d %d\n", linhas - x + 1, y);
 
@@ -338,7 +343,11 @@ int main(int argc, char *argv[])
             //imprimir_tabuleiro(tabuleiro, linhas, colunas);
             contador_jogadas++;
         }
+        time(&end);
         imprimir_tabuleiro(tabuleiro, linhas, colunas);
+        total = difftime (end,start);
+        printf("Fim de jogo:%djogadas em %fsegundos\n",contador,total);
+        
     }
     
     if( modoJogo == 2 ){
@@ -363,18 +372,29 @@ int main(int argc, char *argv[])
         disparosMax = linhas * colunas;
 
         if(modoDisparo == 1){
+            time (&start);
             if(disparosMin > 0){
                 disparo_1(tabuleiro3, disparosMin, disparosMax, linhas, colunas);
             }
         }
         if(modoDisparo == 2){
             if(disparosMin > 0){
+                time (&start);
+                contador = 0;
                 disparo_2(tabuleiro3, disparosMin, linhas, colunas);
+                time(&end);
+                total = difftime (end,start);
+                printf("tempo de jogo:%fsegundos\n",total);
             }
         }
         if(modoDisparo == 3){
             if(disparosMin > 0){
+                time (&start);
+                contador=0;
                 disparo_3(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
+                time(&end);
+                total = difftime (end,start);
+                printf("Fim de jogo:%djogadas em %fsegundos\n",contador,total);
             }
         }
         printf("\n");
