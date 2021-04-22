@@ -130,7 +130,7 @@ return id_global;
 
 void analisar_pecas(int tabuleiro[25][35], int tabuleiro2[25][35], int linhas, int colunas)
 {
-    int i,j,n;
+    int i,j;
     for ( i = 0; i < linhas + 1 ; i++ ){
         for ( j = 0; j < colunas + 1; j++ )
         {

@@ -1,3 +1,10 @@
+/*
+Projeto Intermédio Programação
+Maria Madalena Barros, 100026
+José Montez, 99996
+Regente: Professor Nuno Horta MEEC
+*/
+
 #include "pecas.h"
 #include "tabuleiro.h"
 #include "bibliotecadepecas.h"
@@ -26,21 +33,46 @@ void instrucoes(char *programa)
 
 }
 
+/*
+Função main
+
+Argumentos: argc, argv
+
+return: 0- O programa acabou
+
+Descrição: Verifica a linha de comando;
+Inicializa variáveis;
+Cria os modos de jogo, chamando as funções do modo de posição e do modo de disparo;
+*/
+
 int main(int argc, char *argv[])
 {
     int i = 0, j = 0,
+        /*
+        definição dos valores default
+        */
         linhas = DEFAULT_LINHAS,
         colunas = DEFAULT_COLUNAS,
         modoJogo = DEFAULT_MODO_JOGO,
         modoPosicionamento = DEFAULT_MODO_POSICIONAMENTO,
         modoDisparo = DEFAULT_MODO_DISPARO;
-    int disparosMin = 0,
-        disparosMax = 0;  //nºs de disparos mínimos necessários para vencer
+    /*
+    disparosMin: número mínimo de disparos necessários para 
+    acertar em todos os navios do tabuleiro.
+    disparosMax: número máximo de disparos que se pode realizar.
+    */
+    int disparosMin = 0, 
+        disparosMax = 0; 
+    /*
+    n_pecas: vetor que indica a quantidade de cada peca,
+    sendo que as posições 0 a 7 do vetor correspondem a 
+    um 
+    */
     int n_pecas[9] = {0};
     int flagvec[9] = {0}; // vetor de flag que indica que tipo de pecas já foram testadas (p_2)
     int tabuleiro[25][35] = {0};
     int tabuleiro3[25][35] = {0}; // tabuleiro no qual será registado as peças encontradas pelo computador no modo de jogo 2
-    int n_pecas_contador[0] = {0};
+    int n_pecas_contador[9] = {0};
     char opt = 'h'; // opção para getopt()
     srand(time(NULL));
 
@@ -52,6 +84,10 @@ int main(int argc, char *argv[])
             case 't':
                 sscanf(optarg, "%dx%d", &linhas, &colunas);
                 //printf("%dx%d\n", linhas, colunas);
+                /*
+                O número de linhas tem de ser entre o 9 e o 15 e o número de colunas tem de ser entre 9 e 24, sendo que
+                ambas têm de ser dívisiveis por 3
+                */
                 if ( linhas < 9 || colunas < 9 || linhas > 15 || colunas > 24 || linhas % 3 != 0 || colunas % 3 != 0 )
                 {
                     printf("A dimensão do tabuleiro deve ser no mínimo 9x9 e no máximo 15x24\n\n");
@@ -63,6 +99,9 @@ int main(int argc, char *argv[])
             case 'j':
                 sscanf(optarg,"%d", &modoJogo);
                 //printf("j = %d\n", modoJogo);
+                /*
+                O modo de Jogo é entre o 0 e o 2
+                */
                 if ( modoJogo < 0 || modoJogo > 2 ){
                     printf("O modo do jogo é de 0 a 2\n");
                     printf("-1\n");
@@ -73,6 +112,9 @@ int main(int argc, char *argv[])
             case 'p':
                 sscanf(optarg, "%d", &modoPosicionamento);
                 //printf("p = %d\n", modoPosicionamento);
+                /*
+                O modo de posicionamento é entre o 1 e o 2
+                */
                 if (modoPosicionamento < 1 || modoPosicionamento > 2){
                     printf ("O modo de posicionamento das peças é de 1 a 2\n");
                     printf("-1\n");
@@ -83,16 +125,18 @@ int main(int argc, char *argv[])
             case 'd':
                 sscanf(optarg, "%d", &modoDisparo);
                 //printf("d = %d\n", modoDisparo);
+                /*
+                O modo de Disparo é entre o 1 e o 3
+                */
                 if (modoDisparo < 1 || modoDisparo > 3)
                 {
                     printf("O modo de disparo das peças é de 1 a 3\n");
                     exit(0);
                 }
-
                 break;
 
             case '1':
-                sscanf(optarg, "%d", &n_pecas[0]);// quando nº de peças de tipo 1 é menor do que o nº de peças de tipo 2 o que é que o programa tem de fazer?
+                sscanf(optarg, "%d", &n_pecas[0]);
                 n_pecas[8] += n_pecas[0];
                 flagvec[1] = 1;
                 break;
@@ -202,9 +246,9 @@ int main(int argc, char *argv[])
     int x = 0;
     char y_char;
     int y = 0;
-    
+
     for( i = 0; i < 9; i++){
-    n_pecas_contador[i + 1] = n_pecas[i];
+        n_pecas_contador[i + 1] = n_pecas[i];
     }
 
     if ( modoJogo == 0 ){
@@ -248,6 +292,7 @@ int main(int argc, char *argv[])
         printf("* Modo de Jogo 1\n");
         printf("* Insira as coordenadas de Disparo\n");
         printf("*=================================\n");
+        int contador_jogadas = 0;
         if(modoPosicionamento == 1){
             p_1(tabuleiro, sub_mat, linhas, colunas);
             printf("\n");
@@ -291,6 +336,7 @@ int main(int argc, char *argv[])
             flag3 = verificar_tab(tabuleiro3, linhas, colunas);
             //imprimir_tabuleiro(tabuleiro2, linhas, colunas);
             //imprimir_tabuleiro(tabuleiro, linhas, colunas);
+            contador_jogadas++;
         }
         imprimir_tabuleiro(tabuleiro, linhas, colunas);
     }
@@ -301,9 +347,17 @@ int main(int argc, char *argv[])
         printf("* Crie um tabuleiro com as características indicadas\n");
         printf("* Responda aos disparos do programa\n");
         printf("*=================================\n");
-        printf("%dx%d\n", linhas, colunas);
+        printf("%dx%d ", linhas, colunas);
         for(i = 0; i < 8; i++){
             disparosMin += (i + 1) * n_pecas[i];
+        }
+        n_pecas_contador[0] = sub_mat - (n_pecas[8]);
+        //printf("%dx%d ", linhas, colunas);
+        for(i = 8; i >= 0; i--){
+            while(n_pecas_contador[i] > 0){
+                printf("%d ", i );
+                n_pecas_contador[i]--;
+            }
         }
 
         disparosMax = linhas * colunas;
@@ -315,38 +369,16 @@ int main(int argc, char *argv[])
         }
         if(modoDisparo == 2){
             if(disparosMin > 0){
-                disparo_2(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
+                disparo_2(tabuleiro3, disparosMin, linhas, colunas);
             }
         }
-        if(modoDisparo == 2){
+        if(modoDisparo == 3){
             if(disparosMin > 0){
-                disparo_2(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
-            }
-        }
-
-        printf("%dx%d ", linhas, colunas);
-        for(i = 8; i >= 0; i--){
-            while(n_pecas_contador[i] > 0){
-                printf("%d ", i );
-                n_pecas_contador[i]--;
+                disparo_3(tabuleiro, tabuleiro3, disparosMin, linhas, colunas);
             }
         }
         printf("\n");
         imprimir_tabuleiro(tabuleiro3, linhas, colunas);
     }
-    
-    
-    
-
-
-    //Testa todas as peças
-    /*
-   for( i = 1; i <= 42; i++ ){
-    bibliotecadepecas(0,0,i,tabuleiro);
-    printf("%d\n\n", i);
-    analisar_pecas(tabuleiro, colunas, linhas);
-    imprimir_tabuleiro(tabuleiro, linhas, colunas);
-    apagar_tabuleiro(tabuleiro, linhas, colunas);
-    }
-   */
+    return 0;
 }

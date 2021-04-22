@@ -13,6 +13,7 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
     int n_tipo_peca = 0;
     int contador_pecas[9] = {0};
 
+
     int numpecas = submat; //restrição nº2
     //printf("nº de peças %d\n", numpecas);
 
