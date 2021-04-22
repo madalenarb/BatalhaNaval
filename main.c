@@ -63,15 +63,29 @@ int main(int argc, char *argv[])
     */
     int disparosMin = 0, 
         disparosMax = 0; 
-    /*
+     /*
     n_pecas: vetor que indica a quantidade de cada peca,
     sendo que as posições 0 a 7 do vetor correspondem a 
-    um 
+    um tipo de peça do tabuleiro, de 1 a 8, e a posição 
+    8 corresponde ao número total de peças no tabuleiro
     */
     int n_pecas[9] = {0};
-    int flagvec[9] = {0}; // vetor de flag que indica que tipo de pecas já foram testadas (p_2)
+    /*
+    flagvec: vetor de flag que indica que tipo de peças
+    já foram testadas, de 0, que corresponde a uma matriz 
+    3x3 vazia, a 8 (aplica-se ao modo de jogo 2)
+    */
+    int flagvec[9] = {0};
+    /*
+    tabuleiro: tabuleiro onde são geradas as peças no
+    modo de jogo 0 e no modo de jogo 1
+    */
     int tabuleiro[25][35] = {0};
-    int tabuleiro3[25][35] = {0}; // tabuleiro no qual será registado as peças encontradas pelo computador no modo de jogo 2
+    /*
+    tabuleiro3: tabuleiro onde são registadas as peças
+    encontradas pelo PC após um disparo, no modo de jogo 2
+    */
+    int tabuleiro3[25][35] = {0};
     int n_pecas_contador[9] = {0};
     char opt = 'h'; // opção para getopt()
     srand(time(NULL));
