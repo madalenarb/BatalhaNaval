@@ -11,11 +11,12 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
     int poslinha = 0;
     int i = 0;
     int n_tipo_peca = 0;
-    int contador_pecas[8] = {0};
+    int contador_pecas[9] = {0};
 
 
     int numpecas = submat; //restrição nº2
     //printf("nº de peças %d\n", numpecas);
+
     for ( pos = 0; pos < submat; pos++)
     {
         //printf("pos%dx%d\n", poslinha, poscoluna);
@@ -51,7 +52,7 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
             }
 
             analisar_pecas(tabuleiro, tabuleiro2, linhas, colunas);
-            contador_pecas[n_tipo_peca - 1]++;
+            contador_pecas[n_tipo_peca]++;
             //imprimir_tabuleiro(tabuleiro, linhas, colunas);
             //imprimir_tabuleiro(tabuleiro2, linhas, colunas);
             
@@ -67,6 +68,7 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
             }
         } else if ( id_global == 0 ){
             n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, 0, tabuleiro);
+            contador_pecas[0]++;
         }
 
         poscoluna += 3;
@@ -75,12 +77,13 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
             poslinha += 3;
         }
     } 
-
     printf("%dx%d ", linhas, colunas);
-    for(i = 0; i < 8; i++){
-        printf("%d ", contador_pecas[i]);
+    for(i = 8; i >= 0; i--){
+        while(contador_pecas[i] > 0){
+            printf("%d ", i);
+            contador_pecas[i]--;
+        }
     }
-    printf("\n");
 }
 
 int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int linhas, int colunas)
@@ -218,9 +221,11 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
         }
     }
     printf("%dx%d ", linhas, colunas);
-    for(i = 0; i < 8; i++){
-        printf("%d ", n_pecas[i]);
+    for(i = 8; i >= 0; i--){
+        while(id_pecas_contador[i] > 0){
+            printf("%d ", i );
+            id_pecas_contador[i]--;
+        }
     }
-    printf("\n");
     return 0;
 }

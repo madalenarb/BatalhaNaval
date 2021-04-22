@@ -1,2 +1,0 @@
-# BatalhaNaval
-projeto de prog

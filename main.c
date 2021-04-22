@@ -12,13 +12,20 @@ Regente: Professor Nuno Horta MEEC
 #include "modo_p.h"
 
 //definir valores default 
-#define DEFAULT_LINHAS 9
-#define DEFAULT_COLUNAS 9
-#define DEFAULT_MODO_JOGO 0
-#define DEFAULT_MODO_POSICIONAMENTO 1
-#define DEFAULT_MODO_DISPARO 1
+#define DEFAULT_LINHAS 9 /* valor por omissão para o número de linhas do tabuleiro */
+#define DEFAULT_COLUNAS 9 /* valor por omissão para o número de colunas do tabuleiro */
+#define DEFAULT_MODO_JOGO 0 /* valor por omissão do modo de jogo */
+#define DEFAULT_MODO_POSICIONAMENTO 1 /* valor por omissão do modo de posicionamento */
+#define DEFAULT_MODO_DISPARO 1 /* valor por omissão do modo de disparo */
 
-//função que será executada quando o utilizador escreve -h no terminal
+/*
+Função: instrucoes
+
+Argumento: programa
+
+
+
+*/
 void instrucoes(char *programa)
 {
     printf("B A T A L H A   N A V A L\n\n");
@@ -63,8 +70,7 @@ int main(int argc, char *argv[])
     */
     int disparosMin = 0, 
         disparosMax = 0; 
-
-    /*
+     /*
     n_pecas: vetor que indica a quantidade de cada peca,
     sendo que as posições 0 a 7 do vetor correspondem a 
     um tipo de peça do tabuleiro, de 1 a 8, e a posição 
@@ -82,20 +88,25 @@ int main(int argc, char *argv[])
     modo de jogo 0 e no modo de jogo 1
     */
     int tabuleiro[25][35] = {0};
-    
     /*
     tabuleiro3: tabuleiro onde são registadas as peças
     encontradas pelo PC após um disparo, no modo de jogo 2
     */
-    int tabuleiro3[25][35] = {0}; // tabuleiro no qual será registado as peças encontradas pelo computador no modo de jogo 2
+    int tabuleiro3[25][35] = {0};
+    int n_pecas_contador[9] = {0};
     char opt = 'h'; // opção para getopt()
     srand(time(NULL));
 
-    // opções da linha de comandos:
+    /*
+    verifica a linha de comandos:
+    */
     while ((opt = getopt(argc,argv,"ht:j:p:d:1:2:3:4:5:6:7:8:")) != -1)
     {
         //printf("%c",opt);
         switch(opt) {
+            /*
+            case 't': identifica quando se usa o -t, e de seguida aponta (através do ) para o ínicio da inserção de 2 números 
+            */
             case 't':
                 sscanf(optarg, "%dx%d", &linhas, &colunas);
                 //printf("%dx%d\n", linhas, colunas);
@@ -252,6 +263,9 @@ int main(int argc, char *argv[])
     /*
     testar a impressão de peças aleatorias:
     */
+    int contador = 0;
+    time_t start, end;
+    double total;
     int sub_mat = 0;
     int flag = 0,
     flag2 = 0,
@@ -299,6 +313,7 @@ int main(int argc, char *argv[])
     }
    
     if ( modoJogo == 1 ){
+        time (&start);
         printf("*=================================\n");
         printf("* Modo de Jogo 1\n");
         printf("* Insira as coordenadas de Disparo\n");
@@ -331,10 +346,11 @@ int main(int argc, char *argv[])
         }
 
 
-        while( flag3 == 1 ){
+        while( flag3 == 1 && n_pecas[8]){
             y = 0;
             x = 0;
             scanf(" %c %d", &y_char,&x); // x = nº de linhas total - linha
+            contador++;
             y = y_char - 'A'; // y = coluna
             //printf("%d %d\n", linhas - x + 1, y);
 
@@ -349,7 +365,11 @@ int main(int argc, char *argv[])
             //imprimir_tabuleiro(tabuleiro, linhas, colunas);
             contador_jogadas++;
         }
+        time(&end);
         imprimir_tabuleiro(tabuleiro, linhas, colunas);
+        total = difftime (end,start);
+        printf("Fim de jogo: %d jogadas em %f segundos\n",contador,total);
+        
     }
     
     if( modoJogo == 2 ){
@@ -370,29 +390,50 @@ int main(int argc, char *argv[])
         }
 
         //printf("%dx%d ", linhas, colunas);
-        for(i = 0; i >= 7; i--){
-            printf("%d ", i );
+        for(i = 8; i >= 0; i--){
+            while(n_pecas_contador[i] > 0){
+                printf("%d ", i );
+                n_pecas_contador[i]--;
+            }
+
         }
+        printf("\n");
 
         disparosMax = linhas * colunas;
 
         if(modoDisparo == 1){
+            time(&start);
             if(disparosMin > 0){
-                disparo_1(tabuleiro3, disparosMin, disparosMax, linhas, colunas);
+                
+                contador = disparo_1(tabuleiro3, disparosMin, disparosMax, linhas, colunas);
+                time(&end);
+                total = difftime (end,start);
+                
             }
         }
         if(modoDisparo == 2){
             if(disparosMin > 0){
-                disparo_2(tabuleiro3, disparosMin, linhas, colunas);
+                time(&start);
+                
+                contador = disparo_2(tabuleiro3, disparosMin, linhas, colunas);
+                time(&end);
+                total = difftime (end,start);
+                
             }
         }
         if(modoDisparo == 3){
             if(disparosMin > 0){
-                disparo_3(tabuleiro3, disparosMin, linhas, colunas);
+                time(&start);
+                
+                contador = disparo_3(tabuleiro3, disparosMin, linhas, colunas);
+                time(&end);
+                total = difftime (end,start);
+                
             }
         }
         printf("\n");
         imprimir_tabuleiro(tabuleiro3, linhas, colunas);
+        printf("\nFim de jogo: %d jogadas em %f segundos\n",contador,total);
     }
     return 0;
 }
