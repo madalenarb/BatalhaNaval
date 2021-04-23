@@ -263,7 +263,7 @@ int main(int argc, char *argv[])
     }
 
     //instrucoes();
-    //imprimir_tabuleiro(tabuleiro, linhas, colunas);
+    
     int contador = 0;
     time_t start, end;
     int total = 0;
