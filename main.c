@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
     {
         switch(opt) {
             /*
-            case 't': identifica quando se usa o -t, e de seguida aponta (através do ) para o ínicio da inserção de 2 números
+            case 't': identifica quando se usa o -t, que definirá o tamanho do tabuleiro;
             */
             case 't':
                 sscanf(optarg, "%dx%d", &linhas, &colunas);
@@ -121,10 +121,11 @@ int main(int argc, char *argv[])
                     exit(0);
                 }
                 break;
-
+            /*
+            case 'j': identifica quando se usa o -j, que definirá o modo de jogo;
+            */
             case 'j':
                 sscanf(optarg,"%d", &modoJogo);
-                //printf("j = %d\n", modoJogo);
                 /*
                 O modo de Jogo é entre o 0 e o 2
                 */
@@ -135,10 +136,12 @@ int main(int argc, char *argv[])
                     exit(0);
                 }
                 break;
-
+                
+            /*
+            case 'p': identifica quando se usa o -p, que definirá o modo de posicionamento;
+            */
             case 'p':
                 sscanf(optarg, "%d", &modoPosicionamento);
-                //printf("p = %d\n", modoPosicionamento);
                 /*
                 O modo de posicionamento é entre o 1 e o 2
                 */
@@ -149,10 +152,12 @@ int main(int argc, char *argv[])
                     exit(0);
                 }
                 break;
-
+                
+            /*
+            case 'd': identifica quando se usa o -d, que definirá o modo do disparo;
+            */
             case 'd':
                 sscanf(optarg, "%d", &modoDisparo);
-                //printf("d = %d\n", modoDisparo);
                 /*
                 O modo de Disparo é entre o 1 e o 3
                 */
@@ -164,6 +169,10 @@ int main(int argc, char *argv[])
                 }
                 break;
 
+            /*
+            case '[1-8]': identifica qual é o tipo de peça pretendida (do 1 ao 8) e,
+            respetivamente o número de peças;
+            */
             case '1':
                 sscanf(optarg, "%d", &n_pecas[0]);
                 n_pecas[8] += n_pecas[0];
@@ -262,11 +271,15 @@ int main(int argc, char *argv[])
         }
     }
 
-    //instrucoes();
-    
+    /*
+    contador: irá contar o número de jogadas, que no final do jogo serão impressas;
+    */
     int contador = 0;
+    /*
     time_t start, end;
-    int total = 0;
+    */
+    time_t start, end;
+    double total = 0;
     int sub_mat = 0;
     int flag = 0,
     flag2 = 0,
@@ -359,7 +372,7 @@ int main(int argc, char *argv[])
         time(&end);
         imprimir_tabuleiro(tabuleiro, linhas, colunas);
         total = difftime (end,start);
-        printf("Fim de jogo: %d jogadas em %d segundos\n",contador,total);
+        printf("Fim de jogo: %d jogadas em %f segundos\n",contador,total);
 
     }
 
@@ -416,7 +429,7 @@ int main(int argc, char *argv[])
         }
         printf("\n");
         imprimir_tabuleiro(tabuleiro3, linhas, colunas);
-        printf("Fim de jogo: %d jogadas em %d segundos\n", contador, total);
+        printf("Fim de jogo: %d jogadas em %f segundos\n", contador, total);
     }
     return 0;
 }
