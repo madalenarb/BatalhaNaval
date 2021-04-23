@@ -279,7 +279,7 @@ int main(int argc, char *argv[])
     time_t start, end;
     */
     time_t start, end;
-    double total = 0;
+    int total = 0;
     int sub_mat = 0;
     int flag = 0,
     flag2 = 0,
@@ -372,7 +372,7 @@ int main(int argc, char *argv[])
         time(&end);
         imprimir_tabuleiro(tabuleiro, linhas, colunas);
         total = difftime (end,start);
-        printf("Fim de jogo: %d jogadas em %f segundos\n",contador,total);
+        printf("Fim de jogo: %d jogadas em %d segundos\n",contador,total);
 
     }
 
@@ -429,7 +429,7 @@ int main(int argc, char *argv[])
         }
         printf("\n");
         imprimir_tabuleiro(tabuleiro3, linhas, colunas);
-        printf("Fim de jogo: %d jogadas em %f segundos\n", contador, total);
+        printf("Fim de jogo: %d jogadas em %d segundos\n", contador, total);
     }
     return 0;
 }
