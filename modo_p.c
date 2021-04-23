@@ -18,7 +18,7 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
     int contador, flag;
     /* id_global: identificador global */
     int id_global;
-    /* tabuleiro onde são colocadas as flags -1 nas posições onde não se
+    /* tabuleiro2: tabuleiro onde são colocadas as flags -1 nas posições onde não se
     podem colocar peças (restrição 1)*/
     int tabuleiro2[25][35] = {0};
 
@@ -114,20 +114,26 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
 {
     int i = 0,
         j = 0,
-        /* n_pecas_aux  */
+        /* n_pecas_aux: tem o número de peças nas posições correspondentes ao seu id_peca,
+        sendo que a posição 0 corresponde ao número de matrizes 3x3 vazias */
         n_pecas_aux[10] = {0},
+        /* numpecas: corresponde ao número total de peças */
         numpecas = n_pecas[8];
+        /* tabuleiro onde são colocadas as flags -1 nas posições onde não se
+        podem colocar peças (restrição 1)*/
         int tabuleiro2[25][35] = {0};
+        /* o número de espaços vazios serão as restantes matrizes 3x3 */
         n_pecas_aux[0] = submat - numpecas;
 
     int id_variante = 0,
         id_peca = 0,
-        varianteMax = 0, //nº de variantes máximas de um tipo
+        /*varinateMax: número de variante máximas*/
+        varianteMax = 0,
         id_global = 0;
 
+    /* matrizVazia: é uma flag que indica se a matriz será ou não vazia,
+    se matrizVazia == 1, será vazia, se matrizVazia == 0 */
     int matrizVazia = 0;
-
-    int contador = 0;
 
     int flag = 0; //flag que identifica quando uma peça está adjacente a outra peça
 
@@ -191,10 +197,9 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
 
                     id_variante++;
                     if(id_variante > varianteMax){
-                        for( contador = 0; contador < 9; contador++ ){
+                        for( i = 0; i < 9; i++ ){
                             flag1 = 0;
-                            flag1 += flagvec[contador];
-                     
+                            flag1 += flagvec[i];
                         }
 
                         break;
