@@ -110,7 +110,7 @@ int verificar_mat(int tabuleiro3[25][35], int id_peca, int a, int b){
        for(j = 0;j < 3; j++){
           if ( tabuleiro3[a + i][b + j]>0){
             numpecas++;
-            if (numpecas == id_peca){//se o numero de peças atinjidas for igual ao numero do tipo de peça, indica que todas as peças na matriz3x3 foram encontradas
+            if (numpecas == id_peca){ //se o numero de peças atinjidas for igual ao numero do tipo de peça, indica que todas as peças na matriz3x3 foram encontradas
             return 0;
             }
           }
@@ -230,10 +230,6 @@ int disparo_3(int tabuleiro3[25][35], int disparosMin, int linhas,int colunas){
     }
     return contador;
 }
-<<<<<<< HEAD
-/* esta funçao serve para aplicar a restriçao no disparo 3 (o tabuleiro1 fica a 9 nas posiçoes adjacentes ao disparo,
- indicando ao computador que nao pode disparar nestas posiçoes) */
-=======
 /* Função: restricaodisparo3
 *
 * \brief: esta funçao serve para aplicar a restriçao no disparo 3. As posiçoes restritas irão ser armazenadas no tabuleiro1 com o valor 9; 
@@ -246,12 +242,11 @@ no modo de disparo3 está definido que o computador não pode disparar nestas po
 * \return: void
 *
 */
->>>>>>> 7458650a583f869f2d50a5268705a07f71aa02a2
 void restricaodisparo3(int tabuleiro3[25][35], int tabuleiro[25][35], int a, int b){
     int i, k, d;
-    for(i = 0; i < 3; i++){//vai analisar a matriz3x3
+    for(i = 0; i < 3; i++){ //vai analisar a matriz 3x3
         for(k = 0; k < 3; k++){
-            if(tabuleiro3[a + i][b + k] > 0){//caso encontre uma peça, coloca nas posiçoes adjacentes um 9 no tabuleiro1, indicando q n se pode disparar nestas
+            if(tabuleiro3[a + i][b + k] > 0){ //caso encontre uma peça, coloca nas posiçoes adjacentes um 9 no tabuleiro1, indicando q n se pode disparar nestas
                 for(d = -1; d < 2; d++){
                     tabuleiro[a + i + d][b + k + 1] = 9;
                 }

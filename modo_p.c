@@ -6,7 +6,7 @@
 * 
 * \brief: função que implementa o modo de posicionamento 1
 *
-* \param tabuleiro int: tabuleiro que é usado no modo de jogo 1
+* \param tabuleiro int: tabuleiro que é usado para colocar as peças
 * \param submat int: número de matrizes 3x3
 * \param linhas int: número de linhas
 * \param colunas int: número de colunas
@@ -89,7 +89,6 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
         /* se o id_global for igual a 0, corresponde a um espaço em branco */
         } else if ( id_global == 0 ){
             n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, 0, tabuleiro);
-            contador_pecas[0]++;
         }
 
         /* desce 3 colunas */
@@ -102,19 +101,31 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
     } 
     /* imprime o tamanho do tabuleiro e o número de cada id_peca */
     printf("%dx%d ", linhas, colunas);
-    for(i = 8; i >= 0; i--){
-        while(contador_pecas[i] > 0){
-            printf("%d ", i);
-            contador_pecas[i]--;
-        }
+    for(i = 1; i < 9; i++){
+        printf("%d ", contador_pecas[i] );
     }
 }
 
+
+/*
+* Função: p_2
+*
+* \brief: implementa o modo de posição 2
+*
+* \param tabuleiro int: tabuleiro que será usado para colocar as peças
+* \param n_pecas int: vetor com o número de peças nas posições correspondentes ao seu id_peca - 1
+* \param flagvec int: vetor de flags que indica os tipos de peça que ainda não foram usados
+* \param submat int: representa o número total de matrizes 3x3
+* \param linhas int: número de linhas do tabuleiro
+* \param colunas int: número de colunas do tabuleiro
+* \return: -1 se ainda não foi possível colocar a peça, 0 se foi possível colocar a peça
+*
+*/
 int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int linhas, int colunas)
 {
     int i = 0,
         j = 0,
-        /* n_pecas_aux: tem o número de peças nas posições correspondentes ao seu id_peca,
+        /* n_pecas_aux: vetor que tem o número de peças nas posições correspondentes ao seu id_peca,
         sendo que a posição 0 corresponde ao número de matrizes 3x3 vazias */
         n_pecas_aux[10] = {0},
         /* numpecas: corresponde ao número total de peças */
@@ -132,7 +143,9 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
         id_global = 0;
 
     /* matrizVazia: é uma flag que indica se a matriz será ou não vazia,
-    se matrizVazia == 1, será vazia, se matrizVazia == 0 */
+    se matrizVazia == 1, será vazia,
+    se matrizVazia == 0, terá uma peça
+    */
     int matrizVazia = 0;
 
     int flag = 0; //flag que identifica quando uma peça está adjacente a outra peça
@@ -159,13 +172,17 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
             }
         }
 
+        /* enquanto há peças a testar: */
         while( flag1 > 0 ){
+            /* Há 50% de probabilidades de ser uma matrizVazia */
             matrizVazia = rand()%2;
             if(matrizVazia == 0){
                 id_peca = rand()%8 + 1;
             } else {
                 id_peca = 0;
             }
+            /* enquanto o id_peca não corresponder a uma peça selecionada, 
+            ou se corresponder a um tipo de peça já testado: */
             while( n_pecas_aux[id_peca] == 0 && flagvec[id_peca] == 0 ){
                 matrizVazia = rand()%2;
                 if(matrizVazia == 0){
@@ -173,6 +190,8 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
                 } else {
                     id_peca = 0;
                 }
+                /*sai deste loop se o id_peca for um valor selecionado ou um tipo de peça ainda não 
+                testado */
             }
 
             flagvec[id_peca] = 0;
@@ -185,27 +204,33 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
                 flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
             }
 
-                if(flag == 1){
+                if( flag == 1 ){
                     id_variante = 1;
                 }
 
                 while( flag == 1 ){
                     apagar_submat(tabuleiro, poslinha, poscoluna);
                     if(id_global > 0){
+                        /* vai buscar o id_global em função ao id_peca, id_variante */
                         id_global = return_id_global(id_peca, id_variante);
                     }
+
                     id_peca = bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
+
                     if(id_global > 0){
                         flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
                     }
 
                     id_variante++;
+
+                    /* quando excede o número de variantes máximos e ainda não foi possível colocar a peça, 
+                    analiza-se a flag1, de modo a confirmar se já testámos todos os tipos de peças escolhidos
+                    */
                     if(id_variante > varianteMax){
                         for( i = 0; i < 9; i++ ){
                             flag1 = 0;
                             flag1 += flagvec[i];
                         }
-
                         break;
                     }   
                 }
@@ -215,6 +240,9 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
             }
         }
 
+        /* se a flag1 continuar igual a 0 e a flag for igual a 1, 
+        significa que não foi possível posicionar a peça e por isso irá 
+        returnar -1 */
         if(flag1 == 0 && flag == 1){
             return -1;
         }
@@ -224,6 +252,7 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
         n_pecas_aux[id_peca]--;
         numpecas--;
 
+        /* atualização da posição atual */
         poscoluna += 3;
         if( poscoluna >= colunas - 1 ){
             poscoluna = 0;
@@ -232,7 +261,7 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
     }
     printf("%dx%d ", linhas, colunas);
     for(i = 0; i < 8; i++){
-            printf("%d ", n_pecas[i] );
+        printf("%d ", n_pecas[i] );
     }
     return 0;
 }

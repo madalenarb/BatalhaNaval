@@ -356,6 +356,7 @@ int main(int argc, char *argv[])
 
             flag = p_2(tabuleiro, n_pecas, flagvec, sub_mat, linhas, colunas);
 
+            /* enquanto a flag == -1 a função p_2 irá repetir */
             while(flag == -1){
                 apagar_tabuleiro(tabuleiro, linhas, colunas);
                 flag = p_2(tabuleiro, n_pecas, flagvec, sub_mat, linhas, colunas);
