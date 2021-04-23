@@ -114,7 +114,7 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
 {
     int i = 0,
         j = 0,
-        /*  */
+        /* n_pecas_aux  */
         n_pecas_aux[10] = {0},
         numpecas = n_pecas[8];
         int tabuleiro2[25][35] = {0};

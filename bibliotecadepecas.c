@@ -1,6 +1,6 @@
 #include "bibliotecadepecas.h"
 /*
-Função bibliotecadepecas
+*Função bibliotecadepecas
 
 Argumentação: x, y, id_global, int tabuleiro;
 
@@ -9,6 +9,7 @@ Return: 0 - O programa acabou
 
 Descrição: esta função identifica a posição das peças no tabuleiro em função ao identificador global
 */
+
 int bibliotecadepecas(int x, int y, int id_global, int tabuleiro[25][35])
 {
 
