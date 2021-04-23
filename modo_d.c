@@ -1,6 +1,17 @@
 #include "modo_d.h"
 
-/* funçao de disparo1, retorna o contador do numero de jogadas */
+/* \Funçao: disparo1,
+*
+*  \brief implementação do disparo1
+*
+* \param tabuleiro3: tabuleiro onde vão ser registados os disparos
+* \param disparosMin: indica o numero de disparos minimos para acertar em todas as peças
+* \param disparosMax: indica o numero de disparos maximos para atinjir todas as posições possiveis do tabuleiro
+* \param linhas: indica o numero de linhas definido pelo utilizador
+* \param colunas: indica o numero de colunas definido pelo utilizador
+*
+* \return contador: contador de disparos do computador
+*/
 int disparo_1(int tabuleiro3[25][35], int disparosMin, int disparosMax, int linhas, int colunas){
     int randCol = 0;
     int randLin = 0;
@@ -31,9 +42,17 @@ int disparo_1(int tabuleiro3[25][35], int disparosMin, int disparosMax, int linh
     }
     return contador;
 }
-//esta funçao serve para o utilizador dar o input de resposta aos disparos do computador
-//o input tem que ser de um carater apenas: 1-8 caso o computador acerte numa peça e '-' caso atinja água
-//a funçao tmb da print dos disparos do computador
+/* \Função: resposta
+*
+* \brief esta funçao serve para o utilizador dar o input de resposta aos disparos do computador;
+o input tem que ser de um carater apenas: 1-8 caso o computador acerte numa peça e '-' caso atinja água.
+a funçao tmb da print dos disparos do computador
+*
+* \param charCol: elemento da coluna que corresponde ao disparo do computador
+* \param charLinha: elemento da linha que cooresponde ao disparo do computador
+* \return id_peca_num: retorna o identificador da peça
+*
+*/
 int resposta(char charCol, char linha)
 {
     int id_peca = 0;
@@ -51,7 +70,15 @@ int resposta(char charCol, char linha)
     return id_peca_num;
 }
 
-//verifica se a matriz 3x3 ainda tem peças. caso encontre uma peça retorna 1, se nao houverem peças retorna 0
+/* Função: verificar_matriz
+*
+* \brief:verifica se o tabuleiro ainda contém peças 
+*
+* \param tabuleiro: recebe o tabuleiro para poder verificá-lo
+* \return: retorna 1 caso ainda esteja uma peça no tabuleiro
+* \return: retorna 0 caso não seja encontrada nenhuma peça (ou seja, o tabuleiro tem todas as posições a 0)
+*
+*/
 int verificar_matriz(int tabuleiro[25][35]){
     int i,j = 0;
     for(i = 0; i < 3; i++){
@@ -63,8 +90,19 @@ int verificar_matriz(int tabuleiro[25][35]){
     }
  return 0;
 }
-//esta matriz verifica se as peças numa matriz 3x3 ja foram todas encontradas pelo computador
-//por exemplo: caso o computador dispare numa peça 3, quando disparar nas restantes duas peças 3, avança para a proxima matriz3x3
+/*Função: verificar_mat
+*
+* \brief: verifica se ainda há peças numa célula3x3
+*
+* \param tabuleiro3: recebe o tabuleiro para poder ser analisado
+* \param id_peca: recebe o id_peça (para que saiba quantos elementos de uma peça existem numa celula3x3; 
+exemplo: se for encontrada uma peça 3, existem 3 elementos da peça nessa celula3x3)
+* \param a: elemento de linha da celula3x3 pretendida
+* \param b: elemento da coluna da celula3x3 pretendida
+* \return: 0 caso todas as peças numa celula3x3 tenham sido encontradas
+* \return: 1 caso ainda hajam peças numa celula3x3
+*
+*/
 int verificar_mat(int tabuleiro3[25][35], int id_peca, int a, int b){
    int i, j;
    int numpecas = 0;
@@ -81,8 +119,17 @@ int verificar_mat(int tabuleiro3[25][35], int id_peca, int a, int b){
     return 1;
 }
 
-/*funçao de disparo2: o computador dispara de acordo com uma sequencia, ate atinjir todas as peças numa matriz3x3
-, e depois avança para a matriz seguinte*/
+/*funçao de disparo2: implementa o modo de disparo2
+*
+* \brief:o computador dispara de acordo com uma sequencia, ate atinjir todas as peças numa matriz3x3, e depois avança para a matriz seguinte
+*
+* \param tabuleiro3: tabuleiro onde vão ser registados os disparos
+* \param disparosMin: numero de disparos mínimos para acertar todas as peças
+* \param linhas: numero de linhas definidas pelo utilizador
+* \param colunas: numero de colunas definidas pelo utilizador
+* \return contador: retorna o numero de disparos do computador
+*
+*/
 
 int disparo_2(int tabuleiro3[25][35], int disparosMin, int linhas, int colunas){
     int i = 0;
@@ -126,8 +173,17 @@ int disparo_2(int tabuleiro3[25][35], int disparosMin, int linhas, int colunas){
     }
     return contador;
 }
-/*funçao de disparo3, semelhante ao disparo 2 mas inclui tmb a funcao de restricaodisparo3: o computador n dispara
-numa posiçao adjacente a uma posiçao ja preenchida  */
+/*funçao de disparo3: implementa o disparo 3
+*
+* \brief:semelhante ao disparo 2 mas inclui também a função de restricaodisparo3: o computador não dispara numa posição adjacente a uma posição já preenchida(ver função restricaodisparo3)
+*
+* \param tabuleiro3: tabuleiro onde vão ser registados os disparos
+* \param disparosMin: numero de disparos mínimos para acertar todas as peças
+* \param linhas: numero de linhas definidas pelo utilizador
+* \param colunas: numero de colunas definidas pelo utilizador
+* \return contador: retorna o número de disparos do computador
+*
+*/
 int disparo_3(int tabuleiro3[25][35], int disparosMin, int linhas,int colunas){
     int i = 0;
     int id_peca;
@@ -174,8 +230,18 @@ int disparo_3(int tabuleiro3[25][35], int disparosMin, int linhas,int colunas){
     }
     return contador;
 }
-/*esta funçao serve para aplicar a restriçao no disparo 3 (o tabuleiro1 fica a 9 nas posiçoes adjacentes ao disparo,
- indicando ao computador que nao pode disparar nestas posiçoes)*/
+/* Função: restricaodisparo3
+*
+* \brief: esta funçao serve para aplicar a restriçao no disparo 3. As posiçoes restritas irão ser armazenadas no tabuleiro1 com o valor 9; 
+no modo de disparo3 está definido que o computador não pode disparar nestas posições, aplicando assim a restrição de disparo3.  
+* 
+* \param tabuleiro3: recebe o tabuleiro3, onde sao registados os disparos
+* \param tabuleiro: recebe outro tabuleiro vindo do modo de disparo3, neste vão ser armazenados as posições restritas pela restriçao de modo de disparo3
+* \param a: elemento da linha correspondente a celula3x3 pretendida
+* \param b: elemento da coluna correspondente a celula3x3 pretendida
+* \return: void
+*
+*/
 void restricaodisparo3(int tabuleiro3[25][35], int tabuleiro[25][35], int a, int b){
     int i, k, d;
     for(i = 0; i < 3; i++){//vai analisar a matriz3x3
