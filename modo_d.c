@@ -156,7 +156,7 @@ int disparo_3(int tabuleiro3[25][35], int disparosMin, int linhas,int colunas){
                         if(id_peca == 0){
                             tabuleiro3[a + seqlin[i]][b + seqcol[i]] = -2;
                         }
-                        else if(id_peca > 0 ){
+                        else if( id_peca > 0 ){
                             tabuleiro3[a + seqlin[i]][b + seqcol[i]] = id_peca;
                             disparosMin --;
                             if(disparosMin == 0){
@@ -174,8 +174,8 @@ int disparo_3(int tabuleiro3[25][35], int disparosMin, int linhas,int colunas){
     }
     return contador;
 }
-/*esta funçao serve para aplicar a restriçao no disparo 3 (o tabuleiro1 fica a 9 nas posiçoes adjacentes ao disparo,
- indicando ao computador que nao pode disparar nestas posiçoes)*/
+/* esta funçao serve para aplicar a restriçao no disparo 3 (o tabuleiro1 fica a 9 nas posiçoes adjacentes ao disparo,
+ indicando ao computador que nao pode disparar nestas posiçoes) */
 void restricaodisparo3(int tabuleiro3[25][35], int tabuleiro[25][35], int a, int b){
     int i, k, d;
     for(i = 0; i < 3; i++){//vai analisar a matriz3x3

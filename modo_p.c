@@ -136,7 +136,10 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
     int matrizVazia = 0;
 
     int flag = 0; //flag que identifica quando uma peça está adjacente a outra peça
+    /* flag1: verifica se foram testados todos os tipos de peça */
+    int flag1 = 0;
 
+    /* copia o vetor n_pecas para o n_pecas_aux, mas avançando as posições por 1 */
     for( i = 0; i < 9; i++){
         n_pecas_aux[i + 1] = n_pecas[i];
     }
@@ -147,8 +150,9 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
     int poslinha = 0;
 
     for( pos = 0; pos < submat; pos++ ){
-        int flag1 = 90;
+        flag1 = 90;
 
+        /* se o nº de peças de um certo tipo for maior que 0, coloca-se um 1 na respetiva posição no flagvec */
         for( j = 0; j < 9; j++ ){
             if(n_pecas_aux[j] > 0){
                 flagvec[j] = 1;
