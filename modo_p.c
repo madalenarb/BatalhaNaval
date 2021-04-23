@@ -1,16 +1,34 @@
 #include "modo_p.h"
+
+
+/*
+* Função: p_1
+* 
+* \brief: função que implementa o modo de posicionamento 1
+*
+* \param tabuleiro int: tabuleiro que é usado no modo de jogo 1
+* \param submat int: número de matrizes 3x3
+* \param linhas int: número de linhas
+* \param colunas int: número de colunas
+*
+*/
 void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
 {
-    //inicializa a variante e o tipo de peça
-    //int id_global = return_id_global(tipoPeca, variante);
     int pos = 0;
-    int contador, flag, id_global;
-    int tabuleiro2[25][35] = {0}; // tabuleiro que será usado para comparar
-    //Inicialização das coordenadas de posicionamento (poslinha, poscoluna)
+    int contador, flag;
+    /* id_global: identificador global */
+    int id_global;
+    /* tabuleiro onde são colocadas as flags -1 nas posições onde não se
+    podem colocar peças (restrição 1)*/
+    int tabuleiro2[25][35] = {0};
+
     int poscoluna = 0;
     int poslinha = 0;
     int i = 0;
+    /* n_tipo_peca: identificador da peça */
     int n_tipo_peca = 0;
+    /* contador_pecas: as posicoes de 1 a 8, respetivamente correspondem aos identificadores da peca
+    e a posição 0 corresponde aos espaços vazios */
     int contador_pecas[9] = {0};
 
 
@@ -18,25 +36,40 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
 
     for ( pos = 0; pos < submat; pos++)
     {
-        flag = 0; //quando flag = 0 pode-se colocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz
+        /* quando flag = 0 pode-se colocar a peça na matriz, se flag = 1 não se pode colocar a peça na matriz */
+        flag = 0; 
         id_global = id_global_aleatorio();
-        contador = 0; //irá contar o número de tentativas a colocar uma peça na matriz
+        /* contador: irá contar o número de tentativas a colocar uma peça na matriz*/
+        contador = 0;
 
         if (id_global != 0)
         {
+            /* decrementa o número de peças que ainda podemos posicionar */
             numpecas--;
+
+            /* posiciona a peca que se pretende e guarda na variável n_tipo_peca o identificador da peca */
             n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
             flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
 
+            /* fica dentro deste ciclo até a flag ficar a 0, o que significará
+            que a peça pode ser colocada */
             while( flag == 1 ){
+                /* apaga a submatriz */
                 apagar_submat(tabuleiro, poslinha, poscoluna);
+                /* id_global: um id_global aleatória será gerado */
                 id_global = id_global_aleatorio();
+                /* se o id_global gerado for maior que 0, ou seja correspondente a uma peça */
                 if( id_global > 0){
+                    /* coloca a peca */
                     n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, id_global, tabuleiro);
+                    /* verifica se a peca pode ser colocada */
                     flag = verificar_pecas(tabuleiro, tabuleiro2, poslinha, poscoluna);
                 }
 
+                /* incrementa o número de tentativas de colocar a peca */
                 contador++;
+                /* se o programa passar das 3 tentativas, é forçado a colocar
+                uma peca de tipo 1, de identificador de variante igual a 5 */
                 if(contador >= 3){
                     apagar_submat(tabuleiro, poslinha, poscoluna);
                     id_global = 5;
@@ -48,20 +81,26 @@ void p_1(int tabuleiro[25][35], int submat, int linhas, int colunas)
             analisar_pecas(tabuleiro, tabuleiro2, linhas, colunas);
             contador_pecas[n_tipo_peca]++;
   
+            /* se não houver mais peças a colocar, sai do loop */
             if (numpecas == 0){
                 break;            
             }
+
+        /* se o id_global for igual a 0, corresponde a um espaço em branco */
         } else if ( id_global == 0 ){
             n_tipo_peca = bibliotecadepecas(poslinha, poscoluna, 0, tabuleiro);
             contador_pecas[0]++;
         }
 
+        /* desce 3 colunas */
         poscoluna += 3;
+        /* se chegou à ultima coluna, tem que ir para a 1ª coluna da linha de baixo*/
         if(poscoluna >= colunas - 1){
             poscoluna = 0;
             poslinha += 3;
         }
     } 
+    /* imprime o tamanho do tabuleiro e o número de cada id_peca */
     printf("%dx%d ", linhas, colunas);
     for(i = 8; i >= 0; i--){
         while(contador_pecas[i] > 0){
@@ -75,6 +114,7 @@ int p_2(int tabuleiro[25][35], int n_pecas[9], int flagvec[9], int submat, int l
 {
     int i = 0,
         j = 0,
+        /*  */
         n_pecas_aux[10] = {0},
         numpecas = n_pecas[8];
         int tabuleiro2[25][35] = {0};

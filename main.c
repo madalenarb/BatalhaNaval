@@ -25,6 +25,7 @@ Regente: Professor Nuno Horta MEEC
 ou quando houver um erro
 *
 * \param programa char*: nome do programa
+* \return void
 *
 */
 
@@ -50,11 +51,10 @@ do modo de posição e do modo de disparo
 *
 * \param argc int- (argument count) é um valor inteiro que possui o número
 de argumentos com os quais a função main() foi chamada na linha de comandos
-*
 * \param argv char- (argument vector) é um valor char, em que cada string é
 um dos parâmetros da linha de comando.
-*
 * /return 0- O programa acabou
+*
 */
 
 int main(int argc, char *argv[])
