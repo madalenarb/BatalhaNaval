@@ -1,18 +1,6 @@
 #include "modo_d.h"
-//esta funçao verifica no modo de jogo 1 se todas as peças do tabuleiro ja foram encontradas
-int verificar_tab(int tabuleiro[25][35], int linhas, int colunas){
-    int i,j;
-    for (i = 0; i < linhas; i++){
-        for (j = 0; j < colunas; j++){
-             if (tabuleiro[i][j] != 0){
-                return 1;
-            }
 
-        }
-    }
-    return 0;
-}
-//funçao de disparo1, retorna o contador do numero de jogadas
+/* funçao de disparo1, retorna o contador do numero de jogadas */
 int disparo_1(int tabuleiro3[25][35], int disparosMin, int disparosMax, int linhas, int colunas){
     int randCol = 0;
     int randLin = 0;
