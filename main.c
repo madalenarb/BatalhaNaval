@@ -94,10 +94,7 @@ int main(int argc, char *argv[])
     encontradas pelo PC após um disparo, no modo de jogo 2
     */
     int tabuleiro3[25][35] = {{0}};
-    /*
 
-    */
-    int n_pecas_contador[9] = {0};
     char opt = 'h'; // opção para getopt()
     srand(time(NULL));
 
@@ -106,14 +103,12 @@ int main(int argc, char *argv[])
     */
     while ((opt = getopt(argc,argv,"ht:j:p:d:1:2:3:4:5:6:7:8:")) != -1)
     {
-        //printf("%c",opt);
         switch(opt) {
             /*
             case 't': identifica quando se usa o -t, e de seguida aponta (através do ) para o ínicio da inserção de 2 números
             */
             case 't':
                 sscanf(optarg, "%dx%d", &linhas, &colunas);
-                //printf("%dx%d\n", linhas, colunas);
                 /*
                 O número de linhas tem de ser entre o 9 e o 15 e o número de colunas tem de ser entre 9 e 24, sendo que
                 ambas têm de ser dívisiveis por 3
@@ -339,7 +334,7 @@ int main(int argc, char *argv[])
                 }
         }
 
-        if(n_pecas[8] <= 0){
+        if(n_pecas[8] <= 0 && modoPosicionamento == 2){
             imprimir_tabuleiro(tabuleiro, linhas, colunas);
             return(0);
         }
@@ -347,7 +342,7 @@ int main(int argc, char *argv[])
         while( flag3 == 1 ){
             y = 0;
             x = 0;
-            scanf(" %c %d", &y_char,&x); // x = nº de linhas total - linha
+            scanf(" %c %d", &y_char, &x); // x = nº de linhas total - linha
             contador++;
             y = y_char - 'A'; // y = coluna
 
@@ -385,14 +380,6 @@ int main(int argc, char *argv[])
             disparosMin += (i + 1) * n_pecas[i];
         }
 
-        //printf("%dx%d ", linhas, colunas);
-        for(i = 8; i >= 0; i--){
-            while(n_pecas_contador[i] > 0){
-                printf("%d ", i );
-                n_pecas_contador[i]--;
-            }
-
-        }
         printf("\n");
 
         disparosMax = linhas * colunas;
@@ -413,7 +400,7 @@ int main(int argc, char *argv[])
 
                 contador = disparo_2(tabuleiro3, disparosMin, linhas, colunas);
                 time(&end);
-                total = difftime (end,start);
+                total = difftime (end, start);
 
             }
         }
